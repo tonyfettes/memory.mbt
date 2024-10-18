@@ -1,0 +1,5 @@
+{
+  "targets": {
+    "wasm.mbt": ["wasm", "wasm-gc"]
+  }
+}
