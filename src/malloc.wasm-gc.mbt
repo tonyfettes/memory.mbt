@@ -142,10 +142,7 @@ test "Manager::allocate" {
   inspect!(manager.allocate(16), content="16")
   inspect!(manager, content="[0 + 8, 8 + 16, 16 + 32, 32 - inf]")
   inspect!(manager.allocate(page_size), content="32")
-  inspect!(
-    manager,
-    content="[0 + 8, 8 + 16, 16 + 32, 32 + 65568, 65568 - inf]",
-  )
+  inspect!(manager, content="[0 + 8, 8 + 16, 16 + 32, 32 + 65568, 65568 - inf]")
   inspect!(manager.allocate(8), content="65568")
   inspect!(
     manager,

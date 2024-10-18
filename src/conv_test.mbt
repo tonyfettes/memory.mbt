@@ -8,12 +8,7 @@ test "str2ptr - ptr2str" {
 
 test "bytes2ptr - ptr2bytes" {
   let bytes : FixedArray[Bytes] = [
-    b"hello",
-    b"world",
-    b"foo",
-    b"bar",
-    b"baz",
-    b"qux",
+    b"hello", b"world", b"foo", b"bar", b"baz", b"qux",
   ]
   for b in bytes {
     let ptr = @memory.bytes2ptr(b)
