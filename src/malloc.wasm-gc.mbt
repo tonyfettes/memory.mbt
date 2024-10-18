@@ -260,13 +260,6 @@ test "Manager::deallocate - zero length" {
   inspect!(manager, content="[0 - inf]")
 }
 
-extern "wasm" fn memory_copy(destination : Int, source : Int, length : Int) =
-  #|(func (param i32) (param i32) (param i32)
-  #| local.get 0
-  #| local.get 1
-  #| local.get 2
-  #| memory.copy)
-
 fn Manager::reallocate(self : Manager, address : Int, size : Int) -> Int {
   let index = self.search_block(address)
   let origin = self.blocks[index]

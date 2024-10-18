@@ -51,3 +51,6 @@ pub extern "wasm" fn f32_to_i32(value : Float) -> Int =
 
 pub extern "wasm" fn f32_to_i64(value : Float) -> Int64 =
   #|(func (param f32) (result i64) local.get 0 f32.convert_i64_s)
+
+extern "wasm" fn memory_copy(dest : Int, src : Int, len : Int) =
+  #|(func (param i32) (param i32) (param i32) local.get 0 local.get 1 local.get 2 memory.copy)
