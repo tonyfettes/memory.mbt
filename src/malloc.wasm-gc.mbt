@@ -319,13 +319,13 @@ pub fn malloc(size : Int) -> Int {
   manager.allocate(size)
 }
 
-/// Deallocates a block of memory of the specified size.
+/// Deallocates a block of memory at the specified address.
 ///
 /// Parameters:
 ///
-/// - `size`: The size of the memory block to be deallocated, in bytes.
-pub fn free(size : Int) -> Unit {
-  manager.deallocate(size)
+/// - `address` : The address of the memory block to be deallocated.
+pub fn free(address : Int) -> Unit {
+  manager.deallocate(address)
 }
 
 /// Reallocate memory at the given `address` to the specified `size`.
