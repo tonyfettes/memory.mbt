@@ -24,12 +24,12 @@ pub fn str2ptr(str : String) -> Int {
 /// Returns the string constructed from the memory pointed to by `ptr` with the
 /// specified `len`.
 pub fn ptr2str(ptr : Int, len : Int) -> String {
-  let buf = @buffer.Buffer::new()
+  let buf = @buffer.new()
   for i = 0; i < len * 2; i = i + 1 {
     buf.write_byte(load8_u(ptr + i).to_byte())
   }
   free(ptr)
-  buf.to_string()
+  buf.to_unchecked_string()
 }
 
 /// Converts a `Bytes` object to a pointer offset by 8 bytes.
