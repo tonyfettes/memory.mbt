@@ -20,26 +20,29 @@ pub extern "wasm" fn str2ptr(str : String) -> Int =
 pub extern "wasm" fn ptr2str(ptr : Int, len : Int) -> String =
   #|(func (param i32) (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 243 i32.store8 local.get 0 i32.const 8 i32.sub)
 
-/// Converts a `Bytes` object to a pointer offset by 8 bytes.
+/// Converts a fixed-size byte array into a raw memory pointer by allocating
+/// memory and copying the bytes.
 ///
 /// Parameters:
 ///
-/// - `bytes` : The `Bytes` object to be converted.
+/// * `bytes`: A fixed-size array of bytes to be converted to a pointer.
 ///
-/// Returns the pointer offset by 8 bytes.
-pub extern "wasm" fn bytes2ptr(bytes : Bytes) -> Int =
+/// Returns an integer representing the memory address (pointer) where the bytes
+/// are stored.
+pub extern "wasm" fn byte_array2ptr(bytes : FixedArray[Byte]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
-/// Converts a pointer and its length to a `Bytes` object.
+/// Converts a memory region pointed by a pointer into a fixed-size array of
+/// bytes and frees the memory afterwards.
 ///
 /// Parameters:
 ///
-/// - `ptr` : The integer representing the memory address of the data.
-/// - `len` : The integer representing the length of the data in bytes.
+/// * `pointer` : An integer representing the memory address of the source data.
+/// * `length` : The number of bytes to read from the memory address.
 ///
-/// Returns a `Bytes` object containing the data from the specified memory
+/// Returns a fixed-size array of bytes containing the data read from the memory
 /// address.
-pub extern "wasm" fn ptr2bytes(ptr : Int, len : Int) -> Bytes =
+pub extern "wasm" fn ptr2byte_array(ptr : Int, len : Int) -> FixedArray[Byte] =
   #|(func (param i32) (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
 /// Converts a fixed array of unsigned integers to a pointer.

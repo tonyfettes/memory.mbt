@@ -319,7 +319,7 @@ pub fn malloc(size : Int) -> Int {
   manager.allocate(size)
 }
 
-/// Deallocates a block of memory at the specified address.
+/// De-allocates a block of memory at the specified address.
 ///
 /// Parameters:
 ///

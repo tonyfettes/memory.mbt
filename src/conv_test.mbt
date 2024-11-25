@@ -6,13 +6,18 @@ test "str2ptr - ptr2str" {
   }
 }
 
-test "bytes2ptr - ptr2bytes" {
-  let bytes : FixedArray[Bytes] = [
-    b"hello", b"world", b"foo", b"bar", b"baz", b"qux",
+test "FixedArray[Byte]" {
+  let bytes : FixedArray[FixedArray[Byte]] = [
+    [b'h', b'e', b'l', b'l', b'o'],
+    [b'w', b'o', b'r', b'l', b'd'],
+    [b'f', b'o', b'o'],
+    [b'b', b'a', b'r'],
+    [b'b', b'a', b'z'],
+    [b'q', b'u', b'x'],
   ]
   for b in bytes {
-    let ptr = @memory.bytes2ptr(b)
-    assert_eq!(@memory.ptr2bytes(ptr, b.length()), b)
+    let ptr = @memory.byte_array2ptr(b)
+    assert_eq!(@memory.ptr2byte_array(ptr, b.length()), b)
   }
 }
 
@@ -44,29 +49,34 @@ test "FixedArray[UInt64]" {
   let uint64_arrays : Array[FixedArray[UInt64]] = @quickcheck.samples(10)
   for uint64_array in uint64_arrays {
     let ptr = @memory.uint64_array2ptr(uint64_array)
-    assert_eq!(@memory.ptr2uint64_array(ptr, uint64_array.length()), uint64_array)
+    assert_eq!(
+      @memory.ptr2uint64_array(ptr, uint64_array.length()),
+      uint64_array,
+    )
   }
 }
 
 test "FixedArray[Float]" {
   let int_arrays : Array[FixedArray[Int]] = @quickcheck.samples(10)
-  let float_arrays : Array[FixedArray[Float]] = int_arrays.map(fn(array) {
-    array.map(fn(int) { int.reinterpret_as_float() })
-  })
+  let float_arrays : Array[FixedArray[Float]] = int_arrays.map(
+    fn(array) { array.map(fn(int) { int.reinterpret_as_float() }) },
+  )
   for float_array in float_arrays {
     let ptr = @memory.float_array2ptr(float_array)
     assert_eq!(@memory.ptr2float_array(ptr, float_array.length()), float_array)
   }
 }
 
-
 test "FixedArray[Double]" {
   let int_arrays : Array[FixedArray[Int64]] = @quickcheck.samples(10)
-  let double_arrays : Array[FixedArray[Double]] = int_arrays.map(fn(array) {
-    array.map(fn(int) { int.reinterpret_as_double() })
-  })
+  let double_arrays : Array[FixedArray[Double]] = int_arrays.map(
+    fn(array) { array.map(fn(int) { int.reinterpret_as_double() }) },
+  )
   for double_array in double_arrays {
     let ptr = @memory.double_array2ptr(double_array)
-    assert_eq!(@memory.ptr2double_array(ptr, double_array.length()), double_array)
+    assert_eq!(
+      @memory.ptr2double_array(ptr, double_array.length()),
+      double_array,
+    )
   }
 }

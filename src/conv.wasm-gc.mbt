@@ -32,14 +32,16 @@ pub fn ptr2str(ptr : Int, len : Int) -> String {
   buf.to_unchecked_string()
 }
 
-/// Converts a `Bytes` object to a pointer offset by 8 bytes.
+/// Converts a fixed-size byte array into a raw memory pointer by allocating
+/// memory and copying the bytes.
 ///
 /// Parameters:
 ///
-/// - `bytes` : The `Bytes` object to be converted.
+/// * `bytes`: A fixed-size array of bytes to be converted to a pointer.
 ///
-/// Returns the pointer offset by 8 bytes.
-pub fn bytes2ptr(bytes : Bytes) -> Int {
+/// Returns an integer representing the memory address (pointer) where the bytes
+/// are stored.
+pub fn byte_array2ptr(bytes : FixedArray[Byte]) -> Int {
   let ptr = malloc(bytes.length())
   for i = 0; i < bytes.length(); i = i + 1 {
     store8(ptr + i, bytes[i].to_int())
@@ -47,17 +49,18 @@ pub fn bytes2ptr(bytes : Bytes) -> Int {
   ptr
 }
 
-/// Converts a pointer and its length to a `Bytes` object.
+/// Converts a memory region pointed by a pointer into a fixed-size array of
+/// bytes and frees the memory afterwards.
 ///
 /// Parameters:
 ///
-/// - `ptr` : The integer representing the memory address of the data.
-/// - `len` : The integer representing the length of the data in bytes.
+/// * `pointer` : An integer representing the memory address of the source data.
+/// * `length` : The number of bytes to read from the memory address.
 ///
-/// Returns a `Bytes` object containing the data from the specified memory
+/// Returns a fixed-size array of bytes containing the data read from the memory
 /// address.
-pub fn ptr2bytes(ptr : Int, len : Int) -> Bytes {
-  let bytes = Bytes::new(len)
+pub fn ptr2byte_array(ptr : Int, len : Int) -> FixedArray[Byte] {
+  let bytes = FixedArray::make(len, (0 : Byte))
   for i = 0; i < len; i = i + 1 {
     bytes[i] = load8_u(ptr + i).to_byte()
   }
