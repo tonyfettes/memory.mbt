@@ -14,18 +14,14 @@ pub fn str2ptr(str : String) -> Int {
   ptr
 }
 
-/// Converts a pointer and length to a string.
-///
-/// Parameters:
-///
-/// - `ptr` : The integer pointer to the start of the string in memory.
-/// - `len` : The length of the string in bytes.
-///
-/// Returns the string constructed from the memory pointed to by `ptr` with the
-/// specified `len`.
-pub fn ptr2str(ptr : Int, len : Int) -> String {
+pub fn ptr2str(ptr : Int) -> String {
+  if ptr == empty_block {
+    return ""
+  }
+  let block = manager.blocks[manager.search_block(ptr)]
+  let len = block.size
   let buf = @buffer.new()
-  for i = 0; i < len * 2; i = i + 1 {
+  for i = 0; i < len; i = i + 1 {
     buf.write_byte(load8_u(ptr + i).to_byte())
   }
   free(ptr)
@@ -55,11 +51,15 @@ pub fn byte_array2ptr(bytes : FixedArray[Byte]) -> Int {
 /// Parameters:
 ///
 /// * `pointer` : An integer representing the memory address of the source data.
-/// * `length` : The number of bytes to read from the memory address.
 ///
 /// Returns a fixed-size array of bytes containing the data read from the memory
 /// address.
-pub fn ptr2byte_array(ptr : Int, len : Int) -> FixedArray[Byte] {
+pub fn ptr2byte_array(ptr : Int) -> FixedArray[Byte] {
+  if ptr == empty_block {
+    return []
+  }
+  let block = manager.blocks[manager.search_block(ptr)]
+  let len = block.size
   let bytes = FixedArray::make(len, (0 : Byte))
   for i = 0; i < len; i = i + 1 {
     bytes[i] = load8_u(ptr + i).to_byte()
@@ -83,16 +83,12 @@ pub fn uint_array2ptr(array : FixedArray[UInt]) -> Int {
   ptr
 }
 
-/// Converts a pointer and length to a fixed-size array of unsigned integers.
-///
-/// Parameters:
-///
-/// - `ptr` : The pointer to the memory location where the array data starts.
-/// - `len` : The length of the array to be created.
-///
-/// Returns a `FixedArray[UInt]` containing the data from the specified memory
-/// location.
-pub fn ptr2uint_array(ptr : Int, len : Int) -> FixedArray[UInt] {
+pub fn ptr2uint_array(ptr : Int) -> FixedArray[UInt] {
+  if ptr == empty_block {
+    return []
+  }
+  let block = manager.blocks[manager.search_block(ptr)]
+  let len = block.size / 4
   let array : FixedArray[UInt] = FixedArray::make(len, 0)
   for i = 0; i < len; i = i + 1 {
     array[i] = load32(ptr + i * 4).reinterpret_as_uint()
@@ -116,17 +112,12 @@ pub fn uint64_array2ptr(array : FixedArray[UInt64]) -> Int {
   ptr
 }
 
-/// Converts a pointer to an array of `UInt64` values. Sets the 64-bit header and
-/// then retrieves the array from the pointer.
-///
-/// Parameters:
-///
-/// - `ptr` : The integer representing the pointer to the array.
-/// - `len` : The length of the array. This parameter is currently unused in the
-/// function.
-///
-/// Returns a `FixedArray[UInt64]` containing the values from the pointer.
-pub fn ptr2uint64_array(ptr : Int, len : Int) -> FixedArray[UInt64] {
+pub fn ptr2uint64_array(ptr : Int) -> FixedArray[UInt64] {
+  if ptr == empty_block {
+    return []
+  }
+  let block = manager.blocks[manager.search_block(ptr)]
+  let len = block.size / 8
   let array : FixedArray[UInt64] = FixedArray::make(len, 0)
   for i = 0; i < len; i = i + 1 {
     array[i] = load64(ptr + i * 8).reinterpret_as_uint64()
@@ -150,19 +141,23 @@ pub fn int_array2ptr(array : FixedArray[Int]) -> Int {
   ptr
 }
 
-/// Converts a pointer to an integer array in WebAssembly memory to a fixed-size
-/// array of integers.
+/// Converts a memory block pointed by a pointer into a fixed-size array of
+/// integers. Frees the memory block after conversion.
 ///
 /// Parameters:
 ///
-/// - `ptr` : The pointer to the start of the integer array in WebAssembly
-/// memory.
-/// - `len` : The length of the integer array.
+/// * `pointer`: Memory address pointing to a block of contiguous memory containing
+/// 32-bit integers.
 ///
-/// Returns a `FixedArray[Int]` containing the integers from the specified memory
-/// location.
-
-pub fn ptr2int_array(ptr : Int, len : Int) -> FixedArray[Int] {
+/// Returns a fixed-size array containing the integers read from the memory
+/// block. The size of the array is determined by the block size divided by 4 (as
+/// each integer occupies 4 bytes).
+pub fn ptr2int_array(ptr : Int) -> FixedArray[Int] {
+  if ptr == empty_block {
+    return []
+  }
+  let block = manager.blocks[manager.search_block(ptr)]
+  let len = block.size / 4
   let array : FixedArray[Int] = FixedArray::make(len, 0)
   for i = 0; i < len; i = i + 1 {
     array[i] = load32(ptr + i * 4)
@@ -186,18 +181,12 @@ pub fn int64_array2ptr(array : FixedArray[Int64]) -> Int {
   ptr
 }
 
-/// Converts a pointer to an array of 64-bit integers. Sets the 64-bit header
-/// using an FFI call and then retrieves the array using another FFI call.
-///
-/// Parameters:
-///
-/// - `ptr` : The pointer to the memory location where the array starts.
-/// - `len` : The length of the array. This parameter is currently unused in the
-/// function.
-///
-/// Returns a `FixedArray[Int64]` containing the 64-bit integers from the memory
-/// location pointed to by `ptr`.
-pub fn ptr2int64_array(ptr : Int, len : Int) -> FixedArray[Int64] {
+pub fn ptr2int64_array(ptr : Int) -> FixedArray[Int64] {
+  if ptr == empty_block {
+    return []
+  }
+  let block = manager.blocks[manager.search_block(ptr)]
+  let len = block.size / 8
   let array : FixedArray[Int64] = FixedArray::make(len, 0)
   for i = 0; i < len; i = i + 1 {
     array[i] = load64(ptr + i * 8)
@@ -223,19 +212,12 @@ pub fn float_array2ptr(array : FixedArray[Float]) -> Int {
   ptr
 }
 
-/// Converts a pointer to a WebAssembly memory buffer into a fixed-length array
-/// of floating-point numbers.
-///
-/// Parameters:
-///
-/// - `ptr` : An integer representing the memory address of the buffer containing
-/// the floating-point numbers.
-/// - `len` : An integer representing the number of floating-point numbers in the
-/// buffer.
-///
-/// Returns a `FixedArray[Float]` containing the floating-point numbers from the
-/// specified memory buffer.
-pub fn ptr2float_array(ptr : Int, len : Int) -> FixedArray[Float] {
+pub fn ptr2float_array(ptr : Int) -> FixedArray[Float] {
+  if ptr == empty_block {
+    return []
+  }
+  let block = manager.blocks[manager.search_block(ptr)]
+  let len = block.size / 4
   let array : FixedArray[Float] = FixedArray::make(len, 0.0)
   for i = 0; i < len; i = i + 1 {
     array[i] = loadf32(ptr + i * 4)
@@ -260,16 +242,12 @@ pub fn double_array2ptr(array : FixedArray[Double]) -> Int {
   ptr
 }
 
-/// Converts a pointer to a double array. Sets the 64-bit header and then
-/// retrieves the double array gfrom the pointer.
-///
-/// Parameters:
-///
-/// - `ptr` : The integer pointer to the start of the double array.
-/// - `len` : The length of the double array (unused in the function).
-///
-/// Returns a `FixedArray[Double]` containing the double values from the pointer.
-pub fn ptr2double_array(ptr : Int, len : Int) -> FixedArray[Double] {
+pub fn ptr2double_array(ptr : Int) -> FixedArray[Double] {
+  if ptr == empty_block {
+    return []
+  }
+  let block = manager.blocks[manager.search_block(ptr)]
+  let len = block.size / 8
   let array = FixedArray::make(len, 0.0)
   for i = 0; i < len; i = i + 1 {
     array[i] = loadf64(ptr + i * 8)
