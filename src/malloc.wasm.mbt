@@ -13,7 +13,7 @@ pub fn malloc(size : Int) -> Int {
   let words = size / 4 + 1
   let address = malloc_inline(8 + words * 4)
   store32(address, 1)
-  store32(address + 4, (words << 8) | 241)
+  store32(address + 4, (words << 8) | 246)
   store8(address + words * 4 + 7, 3 - size % 4)
   address + 8
 }
@@ -54,7 +54,7 @@ pub fn copy(dest : Int, src : Int, len : Int) -> Unit {
 /// Returns the new memory address after reallocation.
 pub fn realloc(address : Int, size : Int) -> Int {
   let dst = malloc(size)
-  let src_len = load32(address + 4) & 0xFFFFFF
+  let src_len = load32(address - 4) >> 8
   copy(dst, address, src_len)
   free(address)
   dst

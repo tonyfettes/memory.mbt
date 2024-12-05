@@ -281,28 +281,17 @@ fn Manager::reallocate(self : Manager, address : Int, size : Int) -> Int {
   destination
 }
 
-extern "wasm" fn store_i32(address : Int, value : Int) =
-  #|(func (param i32) (param i32)
-  #| local.get 0
-  #| local.get 1
-  #| i32.store)
-
-extern "wasm" fn load_i32(address : Int) -> Int =
-  #|(func (param i32) (result i32)
-  #| local.get 0
-  #| i32.load)
-
 test "Manager::reallocate" {
   let manager = Manager::new()
   let address_42 = manager.allocate(4)
-  store_i32(address_42, 42)
+  store32(address_42, 42)
   let address_37 = manager.allocate(4)
-  store_i32(address_37, 37)
+  store32(address_37, 37)
   let address_84 = manager.reallocate(address_42, 8)
   inspect!(manager, content="[0 - 4, 4 + 8, 8 + 16, 16 - inf]")
   inspect!(address_84, content="8")
-  inspect!(load_i32(address_84), content="42")
-  inspect!(load_i32(address_84 + 4), content="0")
+  inspect!(load32(address_84), content="42")
+  inspect!(load32(address_84 + 4), content="0")
 }
 
 let manager : Manager = Manager::new()
