@@ -179,7 +179,7 @@ fn Manager::search_block(self : Manager, address : Int) -> Int {
         return middle
       }
       if block.address + block.size <= address {
-        continue middle, right, (middle + right) / 2
+        continue middle + 1, right, (middle + right) / 2
       }
       abort("non-aligned address")
     }
