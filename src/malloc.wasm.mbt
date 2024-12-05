@@ -54,7 +54,7 @@ pub fn copy(dest : Int, src : Int, len : Int) -> Unit {
 /// Returns the new memory address after reallocation.
 pub fn realloc(address : Int, size : Int) -> Int {
   let dst = malloc(size)
-  let src_len = load32(address - 4) >> 8
+  let src_len = (load32(address - 12) >> 2) - 4
   copy(dst, address, src_len)
   free(address)
   dst
