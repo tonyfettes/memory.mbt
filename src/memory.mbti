@@ -1,7 +1,7 @@
 package tonyfettes/memory
 
 // Values
-fn bytes2ptr(Bytes) -> Int
+fn byte_array2ptr(FixedArray[Byte]) -> Int
 
 fn double_array2ptr(FixedArray[Double]) -> Int
 
@@ -39,7 +39,7 @@ fn loadf64(Int) -> Double
 
 fn malloc(Int) -> Int
 
-fn ptr2bytes(Int, Int) -> Bytes
+fn ptr2byte_array(Int, Int) -> FixedArray[Byte]
 
 fn ptr2double_array(Int, Int) -> FixedArray[Double]
 
@@ -80,6 +80,4 @@ fn uint_array2ptr(FixedArray[UInt]) -> Int
 // Type aliases
 
 // Traits
-
-// Extension Methods
 

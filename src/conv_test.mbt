@@ -1,4 +1,4 @@
-test "str2ptr - ptr2str" {
+test "String" {
   let strings : Array[String] = @quickcheck.samples(10)
   for str in strings {
     let ptr = @memory.str2ptr(str)
