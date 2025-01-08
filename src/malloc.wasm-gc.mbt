@@ -1,10 +1,12 @@
+///|
 priv struct Block {
   address : Int
   mut size : Int
   mut occupied : Bool
 }
 
-fn Block::output(self : Block, logger : Logger) -> Unit {
+///|
+fn Block::output(self : Block, logger : &Logger) -> Unit {
   Show::output(self.address, logger)
   if self.occupied {
     logger.write_string(" + ")
@@ -14,21 +16,26 @@ fn Block::output(self : Block, logger : Logger) -> Unit {
   Show::output(self.address + self.size, logger)
 }
 
+///|
 let page_size = 65536
 
+///|
 extern "wasm" fn memory_size() -> Int =
   #|(func (result i32)
   #| memory.size)
 
+///|
 extern "wasm" fn memory_grow(size : Int) -> Int =
   #|(func (param i32) (result i32)
   #| local.get 0
   #| memory.grow)
 
+///|
 priv struct Manager {
   blocks : Array[Block]
 }
 
+///|
 fn Manager::new() -> Manager {
   Manager::{
     blocks: [
@@ -37,7 +44,8 @@ fn Manager::new() -> Manager {
   }
 }
 
-fn Manager::output(self : Manager, logger : Logger) -> Unit {
+///|
+fn Manager::output(self : Manager, logger : &Logger) -> Unit {
   logger.write_string("[")
   let last_index = self.blocks.length() - 1
   for i in 0..<last_index {
@@ -55,6 +63,7 @@ fn Manager::output(self : Manager, logger : Logger) -> Unit {
   logger.write_string("inf]")
 }
 
+///|
 fn Manager::merge_block_backward(self : Manager, index : Int) -> Int {
   loop index {
     0 => 0
@@ -69,6 +78,7 @@ fn Manager::merge_block_backward(self : Manager, index : Int) -> Int {
   }
 }
 
+///|
 fn Manager::merge_block_forward(self : Manager, index : Int) -> Unit {
   while index + 1 < self.blocks.length() {
     if self.blocks[index + 1].occupied {
@@ -79,6 +89,7 @@ fn Manager::merge_block_forward(self : Manager, index : Int) -> Unit {
   }
 }
 
+///|
 fn Manager::grow(self : Manager, size : Int) -> Int {
   let num_page = (size + page_size - 1) / page_size
   let old_page = memory_grow(num_page)
@@ -92,6 +103,7 @@ fn Manager::grow(self : Manager, size : Int) -> Int {
   self.merge_block_backward(self.blocks.length() - 1)
 }
 
+///|
 fn Manager::shrink_block(self : Manager, index : Int, size : Int) -> Unit {
   if self.blocks[index].size <= size {
     return
@@ -107,8 +119,10 @@ fn Manager::shrink_block(self : Manager, index : Int, size : Int) -> Unit {
   self.blocks[index].size = size
 }
 
+///|
 let empty_block = 65536
 
+///|
 fn Manager::allocate(self : Manager, size : Int) -> Int {
   if size == 0 {
     return empty_block
@@ -158,12 +172,14 @@ test "Manager::allocate - zero length" {
   inspect!(manager, content="[0 - inf]")
 }
 
+///|
 fn Manager::merge_block(self : Manager, index : Int) -> Int {
   let index = self.merge_block_backward(index)
   self.merge_block_forward(index)
   index
 }
 
+///|
 fn Manager::search_block(self : Manager, address : Int) -> Int {
   let length = self.blocks.length()
   loop 0, length, length / 2 {
@@ -186,6 +202,7 @@ fn Manager::search_block(self : Manager, address : Int) -> Int {
   }
 }
 
+///|
 fn Manager::deallocate(self : Manager, address : Int) -> Unit {
   if address == empty_block {
     return
@@ -260,6 +277,7 @@ test "Manager::deallocate - zero length" {
   inspect!(manager, content="[0 - inf]")
 }
 
+///|
 fn Manager::reallocate(self : Manager, address : Int, size : Int) -> Int {
   let index = self.search_block(address)
   let origin = self.blocks[index]
@@ -294,9 +312,10 @@ test "Manager::reallocate" {
   inspect!(load32(address_84 + 4), content="0")
 }
 
+///|
 let manager : Manager = Manager::new()
 
-/// Allocates a block of memory of the specified `size` and returns the address
+///| Allocates a block of memory of the specified `size` and returns the address
 /// of the allocated memory.
 ///
 /// Parameters:
@@ -308,7 +327,7 @@ pub fn malloc(size : Int) -> Int {
   manager.allocate(size)
 }
 
-/// De-allocates a block of memory at the specified address.
+///| De-allocates a block of memory at the specified address.
 ///
 /// Parameters:
 ///
@@ -317,7 +336,7 @@ pub fn free(address : Int) -> Unit {
   manager.deallocate(address)
 }
 
-/// Reallocate memory at the given `address` to the specified `size`.
+///| Reallocate memory at the given `address` to the specified `size`.
 ///
 /// Parameters:
 ///

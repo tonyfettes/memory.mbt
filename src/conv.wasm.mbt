@@ -1,4 +1,4 @@
-/// Converts a string to a pointer suitable for WebAssembly memory.
+///| Converts a string to a pointer suitable for WebAssembly memory.
 ///
 /// Parameters:
 ///
@@ -8,7 +8,7 @@
 pub extern "wasm" fn str2ptr(str : String) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
-/// Converts a pointer and length to a string.
+///| Converts a pointer and length to a string.
 ///
 /// Parameters:
 ///
@@ -20,7 +20,7 @@ pub extern "wasm" fn str2ptr(str : String) -> Int =
 pub extern "wasm" fn ptr2str(ptr : Int, len : Int) -> String =
   #|(func (param i32) (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 243 i32.store8 local.get 0 i32.const 8 i32.sub)
 
-/// Converts a fixed-size byte array into a raw memory pointer by allocating
+///| Converts a fixed-size byte array into a raw memory pointer by allocating
 /// memory and copying the bytes.
 ///
 /// Parameters:
@@ -32,7 +32,7 @@ pub extern "wasm" fn ptr2str(ptr : Int, len : Int) -> String =
 pub extern "wasm" fn byte_array2ptr(bytes : FixedArray[Byte]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
-/// Converts a memory region pointed by a pointer into a fixed-size array of
+///| Converts a memory region pointed by a pointer into a fixed-size array of
 /// bytes and frees the memory afterwards.
 ///
 /// Parameters:
@@ -45,7 +45,7 @@ pub extern "wasm" fn byte_array2ptr(bytes : FixedArray[Byte]) -> Int =
 pub extern "wasm" fn ptr2byte_array(ptr : Int, len : Int) -> FixedArray[Byte] =
   #|(func (param i32) (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
-/// Converts a fixed array of unsigned integers to a pointer.
+///| Converts a fixed array of unsigned integers to a pointer.
 ///
 /// Parameters:
 ///
@@ -55,10 +55,11 @@ pub extern "wasm" fn ptr2byte_array(ptr : Int, len : Int) -> FixedArray[Byte] =
 pub extern "wasm" fn uint_array2ptr(array : FixedArray[UInt]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
+///|
 extern "wasm" fn ptr2uint_array_ffi(ptr : Int) -> FixedArray[UInt] =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
-/// Converts a pointer and length to a fixed-size array of unsigned integers.
+///| Converts a pointer and length to a fixed-size array of unsigned integers.
 ///
 /// Parameters:
 ///
@@ -72,7 +73,7 @@ pub fn ptr2uint_array(ptr : Int, len : Int) -> FixedArray[UInt] {
   ptr2uint_array_ffi(ptr)
 }
 
-/// Converts a fixed array of `UInt64` values to a pointer in WebAssembly memory.
+///| Converts a fixed array of `UInt64` values to a pointer in WebAssembly memory.
 ///
 /// Parameters:
 ///
@@ -82,10 +83,11 @@ pub fn ptr2uint_array(ptr : Int, len : Int) -> FixedArray[UInt] {
 pub extern "wasm" fn uint64_array2ptr(array : FixedArray[UInt64]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
+///|
 extern "wasm" fn ptr2uint64_array_ffi(ptr : Int) -> FixedArray[UInt64] =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
-/// Converts a pointer to an array of `UInt64` values. Sets the 64-bit header and
+///| Converts a pointer to an array of `UInt64` values. Sets the 64-bit header and
 /// then retrieves the array from the pointer.
 ///
 /// Parameters:
@@ -100,7 +102,7 @@ pub fn ptr2uint64_array(ptr : Int, len : Int) -> FixedArray[UInt64] {
   ptr2uint64_array_ffi(ptr)
 }
 
-/// Converts a fixed-size integer array to a pointer.
+///| Converts a fixed-size integer array to a pointer.
 ///
 /// Parameters:
 ///
@@ -110,10 +112,11 @@ pub fn ptr2uint64_array(ptr : Int, len : Int) -> FixedArray[UInt64] {
 pub extern "wasm" fn int_array2ptr(array : FixedArray[Int]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
+///|
 extern "wasm" fn ptr2int_array_ffi(ptr : Int) -> FixedArray[Int] =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
-/// Converts a pointer to an integer array in WebAssembly memory to a fixed-size
+///| Converts a pointer to an integer array in WebAssembly memory to a fixed-size
 /// array of integers.
 ///
 /// Parameters:
@@ -129,7 +132,7 @@ pub fn ptr2int_array(ptr : Int, len : Int) -> FixedArray[Int] {
   ptr2int_array_ffi(ptr)
 }
 
-/// Converts a fixed array of 64-bit integers to a pointer.
+///| Converts a fixed array of 64-bit integers to a pointer.
 ///
 /// Parameters:
 ///
@@ -139,10 +142,11 @@ pub fn ptr2int_array(ptr : Int, len : Int) -> FixedArray[Int] {
 pub extern "wasm" fn int64_array2ptr(array : FixedArray[Int64]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
+///|
 extern "wasm" fn ptr2int64_array_ffi(ptr : Int) -> FixedArray[Int64] =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
-/// Converts a pointer to an array of 64-bit integers. Sets the 64-bit header
+///| Converts a pointer to an array of 64-bit integers. Sets the 64-bit header
 /// using an FFI call and then retrieves the array using another FFI call.
 ///
 /// Parameters:
@@ -158,7 +162,7 @@ pub fn ptr2int64_array(ptr : Int, len : Int) -> FixedArray[Int64] {
   ptr2int64_array_ffi(ptr)
 }
 
-/// Converts a fixed-size array of floats to a pointer in WebAssembly memory.
+///| Converts a fixed-size array of floats to a pointer in WebAssembly memory.
 ///
 /// Parameters:
 ///
@@ -170,10 +174,11 @@ pub fn ptr2int64_array(ptr : Int, len : Int) -> FixedArray[Int64] {
 pub extern "wasm" fn float_array2ptr(array : FixedArray[Float]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
+///|
 extern "wasm" fn ptr2float_array_ffi(ptr : Int) -> FixedArray[Float] =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
-/// Converts a pointer to a WebAssembly memory buffer into a fixed-length array
+///| Converts a pointer to a WebAssembly memory buffer into a fixed-length array
 /// of floating-point numbers.
 ///
 /// Parameters:
@@ -190,7 +195,7 @@ pub fn ptr2float_array(ptr : Int, len : Int) -> FixedArray[Float] {
   ptr2float_array_ffi(ptr)
 }
 
-/// Converts a fixed array of doubles to a pointer, adjusting the pointer by 8
+///| Converts a fixed array of doubles to a pointer, adjusting the pointer by 8
 /// bytes.
 ///
 /// Parameters:
@@ -201,10 +206,11 @@ pub fn ptr2float_array(ptr : Int, len : Int) -> FixedArray[Float] {
 pub extern "wasm" fn double_array2ptr(array : FixedArray[Double]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
+///|
 extern "wasm" fn ptr2double_array_ffi(ptr : Int) -> FixedArray[Double] =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
-/// Converts a pointer to a double array. Sets the 64-bit header and then
+///| Converts a pointer to a double array. Sets the 64-bit header and then
 /// retrieves the double array from the pointer.
 ///
 /// Parameters:
@@ -218,6 +224,7 @@ pub fn ptr2double_array(ptr : Int, len : Int) -> FixedArray[Double] {
   ptr2double_array_ffi(ptr)
 }
 
+///|
 fn set_header_ffi(offset : Int, len : Int) -> Unit {
   store32(offset, (len << 8) | 241)
 }

@@ -1,7 +1,8 @@
+///|
 extern "wasm" fn malloc_inline(size : Int) -> Int =
   #|(func (param i32) (result i32) local.get 0 call $moonbit.gc.malloc)
 
-/// Allocates a block of memory of the specified size and returns the address of
+///| Allocates a block of memory of the specified size and returns the address of
 /// the allocated memory.
 ///
 /// Parameters:
@@ -18,7 +19,7 @@ pub fn malloc(size : Int) -> Int {
   address + 8
 }
 
-/// Frees the memory at the specified position by decrementing the reference
+///| Frees the memory at the specified position by decrementing the reference
 /// count.
 ///
 /// Parameters:
@@ -27,7 +28,7 @@ pub fn malloc(size : Int) -> Int {
 pub extern "wasm" fn free(address : Int) =
   #|(func (param i32) local.get 0 i32.const 8 i32.sub call $moonbit.decref)
 
-/// Copies a specified length of memory from the source address to the
+///| Copies a specified length of memory from the source address to the
 /// destination address.
 ///
 /// Parameters:
@@ -44,7 +45,7 @@ pub fn copy(dest : Int, src : Int, len : Int) -> Unit {
   memory_copy(dst, src, len)
 }
 
-/// Reallocate memory at the given `address` to the specified `size`.
+///| Reallocate memory at the given `address` to the specified `size`.
 ///
 /// Parameters:
 ///
