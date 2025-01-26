@@ -1,6 +1,11 @@
 {
   "name": "tonyfettes/memory",
   "version": "0.1.6",
+  "deps": {
+    "tonyfettes/wasm": {
+      "path": "../wasm.mbt"
+    }
+  },
   "readme": "README.md",
   "repository": "",
   "license": "Apache-2.0",

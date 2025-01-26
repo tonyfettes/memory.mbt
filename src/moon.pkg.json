@@ -1,5 +1,17 @@
 {
+  "import": ["tonyfettes/wasm"],
   "targets": {
-    "wasm.mbt": ["wasm", "wasm-gc"]
+    "allocator.mbt": ["js", "wasm-gc"],
+    "malloc.wasm-gc.mbt": ["wasm-gc", "js"],
+    "memory.wasm-gc.mbt": ["wasm-gc", "js"],
+    "set.wasm-gc.mbt": ["wasm-gc", "js"],
+    "set.wasm.mbt": ["wasm", "native"],
+    "get.wasm-gc.mbt": ["wasm-gc", "js"],
+    "get.wasm.mbt": ["wasm", "native"]
+  },
+  "link": {
+    "native": {
+      "cc-flags": "-fsanitize=address"
+    }
   }
 }
