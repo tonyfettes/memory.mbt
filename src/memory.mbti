@@ -1,27 +1,11 @@
 package tonyfettes/memory
 
 // Values
-let byte : Size
-
-let double : Size
-
-let float : Size
-
 fn free[T](Memory[T]) -> Unit
-
-let int : Size
-
-let int64 : Size
 
 fn malloc[T : Sized](Int) -> Memory[T]
 
 fn realloc[T : Sized](Memory[T], Int) -> Memory[T]
-
-fn sizeof(Size) -> Int
-
-let uint : Size
-
-let uint64 : Size
 
 // Types and methods
 type Memory
@@ -29,7 +13,7 @@ impl Memory {
   add[T : Sized](Self[T], Int) -> Self[T]
   get[T : Get](Self[T], Int) -> T
   length[T : Sized](Self[T]) -> Int
-  of_array[T : Sized + Default + Set + Show](FixedArray[T]) -> Self[T]
+  of_array[T : Sized + Default + Set](FixedArray[T]) -> Self[T]
   of_string(String) -> Self[Byte]
   op_get[T : Sized + Get](Self[T], Int) -> T
   op_set[T : Sized + Set](Self[T], Int, T) -> Unit
@@ -38,13 +22,6 @@ impl Memory {
   to_int[T](Self[T]) -> Int
   to_string(Self[Byte]) -> String
 }
-
-type Size
-impl Size {
-  op_get(Self, Int) -> Self
-}
-impl Eq for Size
-impl Hash for Size
 
 // Type aliases
 

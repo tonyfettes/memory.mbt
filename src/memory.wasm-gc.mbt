@@ -25,7 +25,7 @@ pub fn Memory::to_array[T : Sized + Get + Default](
 }
 
 ///|
-pub fn Memory::of_array[T : Sized + Default + Set + Show](
+pub fn Memory::of_array[T : Sized + Default + Set](
   array : FixedArray[T]
 ) -> Memory[T] {
   let ptr : Memory[T] = malloc(array.length())

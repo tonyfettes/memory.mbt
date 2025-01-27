@@ -1,5 +1,5 @@
 ///|
-pub fn malloc[T : Sized + Default + Show](size : Int) -> Memory[T] {
+pub fn malloc[T : Sized + Default](size : Int) -> Memory[T] {
   let array = FixedArray::make(size, T::default())
   Memory::of_array(array)
 }
@@ -23,7 +23,7 @@ fn copy(dest : Int, src : Int, len : Int) -> Unit {
 }
 
 ///|
-pub fn realloc[T : Sized + Default + Show](
+pub fn realloc[T : Sized + Default](
   ptr : Memory[T],
   size : Int
 ) -> Memory[T] {
