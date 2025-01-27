@@ -1,71 +1,80 @@
 package tonyfettes/memory
 
 // Values
-fn byte_array2ptr(FixedArray[Byte]) -> Int
+let byte : Size
 
-fn double_array2ptr(FixedArray[Double]) -> Int
+let double : Size
 
-fn float_array2ptr(FixedArray[Float]) -> Int
+let float : Size
 
-fn free[T](Ptr[T]) -> Unit
+fn free[T](Memory[T]) -> Unit
 
-fn int64_array2ptr(FixedArray[Int64]) -> Int
+let int : Size
 
-fn int_array2ptr(FixedArray[Int]) -> Int
+let int64 : Size
 
-fn malloc[T : Sized](Int) -> Ptr[T]
+fn malloc[T : Sized](Int) -> Memory[T]
 
-fn ptr2byte_array(Int, Int) -> FixedArray[Byte]
+fn realloc[T : Sized](Memory[T], Int) -> Memory[T]
 
-fn ptr2double_array(Int, Int) -> FixedArray[Double]
+fn sizeof(Size) -> Int
 
-fn ptr2float_array(Int, Int) -> FixedArray[Float]
+let uint : Size
 
-fn ptr2int64_array(Int, Int) -> FixedArray[Int64]
-
-fn ptr2int_array(Int, Int) -> FixedArray[Int]
-
-fn ptr2str(Int, Int) -> String
-
-fn ptr2uint64_array(Int, Int) -> FixedArray[UInt64]
-
-fn ptr2uint_array(Int, Int) -> FixedArray[UInt]
-
-fn realloc[T : Sized](Ptr[T], Int) -> Ptr[T]
-
-fn str2ptr(String) -> Int
-
-fn uint64_array2ptr(FixedArray[UInt64]) -> Int
-
-fn uint_array2ptr(FixedArray[UInt]) -> Int
+let uint64 : Size
 
 // Types and methods
-type Ptr
-impl Ptr {
+type Memory
+impl Memory {
   add[T : Sized](Self[T], Int) -> Self[T]
-  as_int[T](Self[T]) -> Int
-  load[T : Load](Self[T]) -> T
-  of_array[T : Sized + Store](FixedArray[T]) -> Self[T]
-  op_get[T : Sized + Load](Self[T], Int) -> T
-  op_set[T : Sized + Store](Self[T], Int, T) -> Unit
-  store[T : Store](Self[T], T) -> Unit
-  to_array[T : Sized + Load + Default](Self[T], Int) -> FixedArray[T]
+  get[T : Get](Self[T], Int) -> T
+  length[T : Sized](Self[T]) -> Int
+  of_array[T : Sized + Default + Set + Show](FixedArray[T]) -> Self[T]
+  of_string(String) -> Self[Byte]
+  op_get[T : Sized + Get](Self[T], Int) -> T
+  op_set[T : Sized + Set](Self[T], Int, T) -> Unit
+  set[T : Set](Self[T], Int, T) -> Unit
+  to_array[T : Sized + Get + Default](Self[T]) -> FixedArray[T]
+  to_int[T](Self[T]) -> Int
+  to_string(Self[Byte]) -> String
 }
+
+type Size
+impl Size {
+  op_get(Self, Int) -> Self
+}
+impl Eq for Size
+impl Hash for Size
 
 // Type aliases
 
 // Traits
-trait Load
+trait Get
+impl Get for Byte
+impl Get for Int
+impl Get for Int64
+impl Get for UInt
+impl Get for UInt64
+impl Get for Float
+impl Get for Double
+
+trait Set
+impl Set for Byte
+impl Set for Int
+impl Set for Int64
+impl Set for UInt
+impl Set for UInt64
+impl Set for Float
+impl Set for Double
 
 pub(open) trait Sized {
   size() -> Int
 }
-impl Sized for Unit
 impl Sized for Byte
 impl Sized for Int
 impl Sized for Int64
+impl Sized for UInt
+impl Sized for UInt64
 impl Sized for Float
 impl Sized for Double
-
-trait Store
 

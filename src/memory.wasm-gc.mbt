@@ -2,7 +2,7 @@
 type Memory[_] Int
 
 ///|
-pub fn Memory::as_int[T](self : Memory[T]) -> Int {
+pub fn Memory::to_int[T](self : Memory[T]) -> Int {
   self._
 }
 
