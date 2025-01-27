@@ -2,7 +2,7 @@
   "name": "tonyfettes/memory",
   "version": "0.2.0",
   "deps": {
-    "tonyfettes/wasm": "0.1.0"
+    "tonyfettes/wasm": "0.1.1"
   },
   "readme": "README.md",
   "repository": "",

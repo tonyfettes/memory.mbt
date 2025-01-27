@@ -13,21 +13,20 @@ pub fn Memory::length[T : Sized](self : Memory[T]) -> Int {
 }
 
 ///|
-pub fn Memory::to_array[T : Sized + Get + Default](
-  self : Memory[T]
-) -> FixedArray[T] {
+pub fn Memory::to_array[T : Sized + Get](self : Memory[T]) -> FixedArray[T] {
   let length = self.length()
-  let array = FixedArray::make(length, T::default())
-  for i = 0; i < length; i = i + 1 {
+  if length == 0 {
+    return []
+  }
+  let array = FixedArray::make(length, self[0])
+  for i = 1; i < length; i = i + 1 {
     array[i] = self[i]
   }
   array
 }
 
 ///|
-pub fn Memory::of_array[T : Sized + Default + Set](
-  array : FixedArray[T]
-) -> Memory[T] {
+pub fn Memory::of_array[T : Sized + Set](array : FixedArray[T]) -> Memory[T] {
   let ptr : Memory[T] = malloc(array.length())
   for i = 0; i < array.length(); i = i + 1 {
     ptr[i] = array[i]
@@ -62,7 +61,7 @@ fn ptr_add[T : Sized](self : Memory[T], offset : Int) -> Memory[T] {
 }
 
 ///|
-pub fn Memory::add[T : Sized](self : Memory[T], offset : Int) -> Memory[T] {
+fn Memory::add[T : Sized](self : Memory[T], offset : Int) -> Memory[T] {
   let address = self._ + offset * T::size()
   Memory(address)
 }

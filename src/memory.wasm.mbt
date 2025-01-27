@@ -34,14 +34,14 @@ pub fn Memory::of_array[T](array : FixedArray[T]) -> Memory[T] {
 }
 
 ///|
-pub fn Memory::to_string[T](self : Memory[T]) -> String {
+pub fn Memory::to_string(self : Memory[Byte]) -> String {
   let address = self.to_int()
   _moonbit_incref(address - 8)
   _string_of_int(address - 8)
 }
 
 ///|
-pub fn Memory::of_string[T](string : String) -> Memory[T] {
+pub fn Memory::of_string(string : String) -> Memory[Byte] {
   let address = _string_to_int(string)
   Memory::of_int(address + 8)
 }

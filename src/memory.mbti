@@ -10,15 +10,14 @@ fn realloc[T : Sized](Memory[T], Int) -> Memory[T]
 // Types and methods
 type Memory
 impl Memory {
-  add[T : Sized](Self[T], Int) -> Self[T]
   get[T : Get](Self[T], Int) -> T
   length[T : Sized](Self[T]) -> Int
-  of_array[T : Sized + Default + Set](FixedArray[T]) -> Self[T]
+  of_array[T : Sized + Set](FixedArray[T]) -> Self[T]
   of_string(String) -> Self[Byte]
   op_get[T : Sized + Get](Self[T], Int) -> T
   op_set[T : Sized + Set](Self[T], Int, T) -> Unit
   set[T : Set](Self[T], Int, T) -> Unit
-  to_array[T : Sized + Get + Default](Self[T]) -> FixedArray[T]
+  to_array[T : Sized + Get](Self[T]) -> FixedArray[T]
   to_int[T](Self[T]) -> Int
   to_string(Self[Byte]) -> String
 }

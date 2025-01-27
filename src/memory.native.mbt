@@ -1,5 +1,5 @@
 ///|
-type Memory[_]
+pub type Memory[_]
 
 ///|
 fn _array_to_memory[T](ptr : FixedArray[T]) -> Memory[T] = "%identity"
@@ -37,19 +37,19 @@ pub fn Memory::of_array[T](array : FixedArray[T]) -> Memory[T] {
 }
 
 ///|
-pub fn Memory::to_string[T](self : Memory[T]) -> String {
+pub fn Memory::to_string(self : Memory[Byte]) -> String {
   _moonbit_incref(self.cast().sub(8).cast())
   _string_of_memory(self.cast().sub(8).cast())
 }
 
 ///|
-pub fn Memory::of_string[T](string : String) -> Memory[T] {
+pub fn Memory::of_string(string : String) -> Memory[Byte] {
   let memory : Memory[Byte] = _string_to_memory(string)
   memory.cast().add(8).cast()
 }
 
 ///|
-pub fn Memory::length[T](self : Memory[T]) -> Int {
+pub fn Memory::length[T : Sized](self : Memory[T]) -> Int {
   let array = self.to_array()
   array.length()
 }
