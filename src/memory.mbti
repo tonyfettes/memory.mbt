@@ -1,11 +1,27 @@
 package tonyfettes/memory
 
 // Values
+let byte : Size
+
+let double : Size
+
+let float : Size
+
 fn free[T](Memory[T]) -> Unit
+
+let int : Size
+
+let int64 : Size
 
 fn malloc[T : Sized](Int) -> Memory[T]
 
 fn realloc[T : Sized](Memory[T], Int) -> Memory[T]
+
+fn sizeof(Size) -> Int
+
+let uint : Size
+
+let uint64 : Size
 
 // Types and methods
 type Memory
@@ -21,6 +37,8 @@ impl Memory {
   to_int[T](Self[T]) -> Int
   to_string(Self[Byte]) -> String
 }
+
+type Size
 
 // Type aliases
 
