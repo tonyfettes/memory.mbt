@@ -3,19 +3,19 @@ package tonyfettes/memory
 // Values
 let byte : Size
 
-let double : Size
+let double_ : Size
 
-let float : Size
+let float_ : Size
 
 fn free[T](Memory[T]) -> Unit
 
-let int : Size
-
 let int64 : Size
 
-fn malloc[T : Sized](Int) -> Memory[T]
+let int_ : Size
 
-fn realloc[T : Sized](Memory[T], Int) -> Memory[T]
+fn malloc[T : Sized + Default + Set](Int) -> Memory[T]
+
+fn realloc[T : Sized + Default + Get + Set](Memory[T], Int) -> Memory[T]
 
 fn sizeof(Size) -> Int
 
@@ -27,18 +27,21 @@ let uint64 : Size
 type Memory
 impl Memory {
   get[T : Get](Self[T], Int) -> T
-  length[T : Sized](Self[T]) -> Int
-  of_array[T : Sized + Set](FixedArray[T]) -> Self[T]
+  length[T : Sized + Default + Get + Set](Self[T]) -> Int
+  of_array[T : Sized + Default + Set](FixedArray[T]) -> Self[T]
   of_string(String) -> Self[Byte]
   op_get[T : Sized + Get](Self[T], Int) -> T
   op_set[T : Sized + Set](Self[T], Int, T) -> Unit
   set[T : Set](Self[T], Int, T) -> Unit
-  to_array[T : Sized + Get](Self[T]) -> FixedArray[T]
+  to_array[T : Sized + Default + Get + Set](Self[T]) -> FixedArray[T]
   to_int[T](Self[T]) -> Int
   to_string(Self[Byte]) -> String
 }
 
 type Size
+impl Size {
+  op_get(Self, Int) -> Self
+}
 
 // Type aliases
 
