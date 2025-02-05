@@ -23,10 +23,7 @@ fn copy(dest : Int, src : Int, len : Int) -> Unit {
 }
 
 ///|
-pub fn realloc[T : Sized + Default](
-  ptr : Memory[T],
-  size : Int
-) -> Memory[T] {
+pub fn realloc[T : Sized + Default](ptr : Memory[T], size : Int) -> Memory[T] {
   let dst = malloc(size)
   let src_len = ptr.length()
   copy(dst._, ptr._, src_len)
