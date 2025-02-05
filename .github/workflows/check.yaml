@@ -175,6 +175,7 @@ jobs:
 
       - name: install
         run: |
+          git config --global http.version HTTP/1.1
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s 'bleeding'
           echo "$HOME/.moon/bin" >> $GITHUB_PATH
 
