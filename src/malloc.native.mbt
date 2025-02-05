@@ -12,7 +12,11 @@ extern "c" fn _moonbit_decref(ptr : Memory[Unit]) = "moonbit_decref"
 
 ///|
 pub fn free[T](ptr : Memory[T]) -> Unit {
-  _moonbit_decref(ptr.cast().sub(8).cast())
+  ptr.cast()
+  |> _array_of_memory()
+  |> _array_sub(1)
+  |> _array_to_memory()
+  |> _moonbit_decref()
 }
 
 ///|
