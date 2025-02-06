@@ -1,5 +1,11 @@
 ///|
-pub type Memory[_]
+type Memory[_]
+
+///|
+pub fn Memory::to_int[T](self : Memory[T]) -> Int {
+  let _ = self
+  panic()
+}
 
 ///|
 fn _array_to_memory[T](ptr : FixedArray[T]) -> Memory[T] = "%identity"
@@ -25,13 +31,17 @@ fn Memory::add(self : Memory[Unit], offset : Int) -> Memory[Unit] = "%u64.add"
 fn Memory::sub(self : Memory[Unit], offset : Int) -> Memory[Unit] = "%u64.sub"
 
 ///|
-pub fn Memory::to_array[T](self : Memory[T]) -> FixedArray[T] {
+pub fn Memory::to_array[T : Sized + Default + Get + Set](
+  self : Memory[T]
+) -> FixedArray[T] {
   _moonbit_incref(self.cast().sub(8).cast())
   _array_of_memory(self.cast().sub(8).cast())
 }
 
 ///|
-pub fn Memory::of_array[T](array : FixedArray[T]) -> Memory[T] {
+pub fn Memory::of_array[T : Sized + Default + Set](
+  array : FixedArray[T]
+) -> Memory[T] {
   let memory = _array_to_memory(array)
   memory.cast().add(8).cast()
 }
@@ -49,7 +59,7 @@ pub fn Memory::of_string(string : String) -> Memory[Byte] {
 }
 
 ///|
-pub fn Memory::length[T : Sized](self : Memory[T]) -> Int {
+pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
   let array = self.to_array()
   array.length()
 }
