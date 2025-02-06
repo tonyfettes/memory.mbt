@@ -28,7 +28,7 @@ pub let float_ : Size = 4
 ///|
 pub let double_ : Size = 8
 
-///|
+///| Types with a constant size known at compile time.
 pub(open) trait Sized {
   size() -> Int
 }
