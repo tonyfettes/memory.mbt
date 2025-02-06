@@ -15,7 +15,7 @@ fn Block::output(self : Block, logger : &Logger) -> Unit {
   Show::output(self.address + self.size, logger)
 }
 
-///|
+///| 64KiB
 let page_size = 65536
 
 ///|
@@ -132,7 +132,8 @@ fn align(address : Int, alignment : Int) -> Int {
   (address + alignment - 1) & (alignment - 1).lnot()
 }
 
-///|
+///| Allocate a block of memory of the given length.
+/// align the length to 8 bytes.
 fn Allocator::allocate(self : Allocator, length : Int) -> Int {
   if length == 0 {
     return empty_block
@@ -208,7 +209,7 @@ fn Allocator::search_block(self : Allocator, address : Int) -> Int {
   }
 }
 
-///|
+///| @alert unsafe "Panic if double free"
 fn Allocator::deallocate(self : Allocator, address : Int) -> Unit {
   if address == empty_block {
     return
@@ -286,7 +287,7 @@ test "Allocator::deallocate/zero-length" {
   inspect!(manager, content="[0 + 8, 8 - inf]")
 }
 
-///|
+///| @alert unsafe "Panic if double free"
 fn Allocator::reallocate(self : Allocator, address : Int, size : Int) -> Int {
   let index = self.search_block(address)
   let origin = self.blocks[index]
