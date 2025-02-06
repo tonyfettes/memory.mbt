@@ -5,6 +5,21 @@ type Size Int
 pub fn Size::op_get(size : Size, index : Int) -> Size = "%i32_mul"
 
 ///|
+/// Returns the size of a primitive type in bytes.
+///
+/// Parameters:
+///
+/// * `size` : A `Size` value representing the size of a primitive type.
+///
+/// Returns the actual size in bytes as an integer.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "sizeof/int" {
+///   inspect!(sizeof(int_), content="4")
+/// }
+/// ```
 pub fn sizeof(size : Size) -> Int = "%identity"
 
 ///|
