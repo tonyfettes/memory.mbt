@@ -39,7 +39,7 @@ Include in `moon.pkg.json`:
 - Remember to free every pointer.
 
 On Wasm and Native backends, the memory allocator in MoonBit will reserve extra
-space before the allocated memory to do some bookeeping. This means
+space before the allocated memory to do some bookkeeping. This means
 almost all the time, you should pass `Memory[T]` to FFIs, instead of getting
 `Memory[T]` from them. For example, given the following C function:
 
