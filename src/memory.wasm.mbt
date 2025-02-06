@@ -20,34 +20,33 @@ fn _string_to_int(string : String) -> Int = "%identity"
 fn _string_of_int(value : Int) -> String = "%identity"
 
 ///|
-pub fn Memory::to_array[T](self : Memory[T]) -> FixedArray[T] {
-  let address = self.to_int()
-  _moonbit_incref(address - 8)
-  let array = _array_of_int(address - 8)
-  array
+pub fn Memory::to_array[T : Sized + Default + Get + Set](
+  self : Memory[T]
+) -> FixedArray[T] {
+  _array_of_int(self.to_int() - 8)
 }
 
 ///|
-pub fn Memory::of_array[T](array : FixedArray[T]) -> Memory[T] {
-  let address = _array_to_int(array)
-  Memory::of_int(address + 8)
+pub fn Memory::of_array[T : Sized + Default + Set](
+  array : FixedArray[T]
+) -> Memory[T] {
+  Memory::of_int(_array_to_int(array) + 8)
 }
 
 ///|
 pub fn Memory::to_string(self : Memory[Byte]) -> String {
-  let address = self.to_int()
-  _moonbit_incref(address - 8)
-  _string_of_int(address - 8)
+  _string_of_int(self.to_int() - 8)
 }
 
 ///|
 pub fn Memory::of_string(string : String) -> Memory[Byte] {
-  let address = _string_to_int(string)
-  Memory::of_int(address + 8)
+  Memory::of_int(_string_to_int(string) + 8)
 }
 
 ///|
-pub fn Memory::length[T](self : Memory[T]) -> Int {
+pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
   let array = self.to_array()
-  array.length()
+  let length = array.length()
+  _moonbit_incref(array)
+  length
 }

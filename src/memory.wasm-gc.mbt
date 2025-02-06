@@ -6,14 +6,17 @@ pub fn Memory::to_int[T](self : Memory[T]) -> Int {
   self._
 }
 
+
 ///| Returns memory's length with spcialized element type
-pub fn Memory::length[T : Sized](self : Memory[T]) -> Int {
+pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
   let length = allocator.search_block_length(self._)
   length / T::size()
 }
 
-///| 
-pub fn Memory::to_array[T : Sized + Get](self : Memory[T]) -> FixedArray[T] {
+
+pub fn Memory::to_array[T : Sized + Default + Get + Set](
+  self : Memory[T]
+) -> FixedArray[T] {
   let length = self.length()
   if length == 0 {
     return []
@@ -25,8 +28,11 @@ pub fn Memory::to_array[T : Sized + Get](self : Memory[T]) -> FixedArray[T] {
   array
 }
 
+
 ///| Allocates memory for an array
-pub fn Memory::of_array[T : Sized + Set](array : FixedArray[T]) -> Memory[T] {
+pub fn Memory::of_array[T : Sized + Default + Set](
+  array : FixedArray[T]
+) -> Memory[T] {
   let ptr : Memory[T] = malloc(array.length())
   for i = 0; i < array.length(); i = i + 1 {
     ptr[i] = array[i]

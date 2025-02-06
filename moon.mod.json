@@ -5,7 +5,7 @@
     "tonyfettes/wasm": "0.1.1"
   },
   "readme": "README.md",
-  "repository": "",
+  "repository": "https://github.com/tonyfettes/memory.mbt",
   "license": "Apache-2.0",
   "keywords": [],
   "description": "Simple memory access and management to be used with WASI FFI",

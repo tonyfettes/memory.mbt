@@ -1,5 +1,11 @@
 ///|
-pub type Memory[_]
+type Memory[_]
+
+///|
+pub fn Memory::to_int[T](self : Memory[T]) -> Int {
+  let _ = self
+  panic()
+}
 
 ///|
 fn _array_to_memory[T](ptr : FixedArray[T]) -> Memory[T] = "%identity"
@@ -19,37 +25,45 @@ fn Memory::cast[T, U](self : Memory[T]) -> Memory[U] = "%identity"
 ///|
 /// This will be compiled as `+` and will be inlined. This way we can bypass the
 /// typecheck on the C side.
-fn Memory::add(self : Memory[Unit], offset : Int) -> Memory[Unit] = "%u64.add"
+fn _array_add[T](array : FixedArray[T], offset : Int) -> FixedArray[T] = "%u64.add"
 
 ///|
-fn Memory::sub(self : Memory[Unit], offset : Int) -> Memory[Unit] = "%u64.sub"
+fn _array_sub[T](array : FixedArray[T], offset : Int) -> FixedArray[T] = "%u64.sub"
 
 ///|
-pub fn Memory::to_array[T](self : Memory[T]) -> FixedArray[T] {
-  _moonbit_incref(self.cast().sub(8).cast())
-  _array_of_memory(self.cast().sub(8).cast())
+fn _string_add(string : String, offset : Int) -> String = "%u64.add"
+
+///|
+fn _string_sub(string : String, offset : Int) -> String = "%u64.sub"
+
+///|
+pub fn Memory::to_array[T : Sized + Default + Get + Set](
+  self : Memory[T]
+) -> FixedArray[T] {
+  _array_sub(_array_of_memory(self), 1)
 }
 
 ///|
-pub fn Memory::of_array[T](array : FixedArray[T]) -> Memory[T] {
-  let memory = _array_to_memory(array)
-  memory.cast().add(8).cast()
+pub fn Memory::of_array[T : Sized + Default + Set](
+  array : FixedArray[T]
+) -> Memory[T] {
+  _array_to_memory(_array_add(array, 1))
 }
 
 ///|
 pub fn Memory::to_string(self : Memory[Byte]) -> String {
-  _moonbit_incref(self.cast().sub(8).cast())
-  _string_of_memory(self.cast().sub(8).cast())
+  _string_sub(_string_of_memory(self), 1)
 }
 
 ///|
 pub fn Memory::of_string(string : String) -> Memory[Byte] {
-  let memory : Memory[Byte] = _string_to_memory(string)
-  memory.cast().add(8).cast()
+  _string_to_memory(_string_add(string, 1))
 }
 
 ///|
-pub fn Memory::length[T : Sized](self : Memory[T]) -> Int {
+pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
   let array = self.to_array()
-  array.length()
+  let length = array.length()
+  _moonbit_incref(array)
+  length
 }
