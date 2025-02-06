@@ -5,7 +5,9 @@ pub fn malloc[T : Sized + Default + Set](size : Int) -> Memory[T] {
 }
 
 ///|
-fn _moonbit_incref(ptr : Int) = "$moonbit.incref"
+fn _moonbit_incref[T](ptr : FixedArray[T]) -> Unit {
+  _array_to_int(ptr) |> ignore()
+}
 
 ///|
 fn _moonbit_decref(ptr : Int) = "$moonbit.decref"
@@ -17,9 +19,7 @@ pub fn free[T](ptr : Memory[T]) -> Unit {
 
 ///|
 fn copy(dest : Int, src : Int, len : Int) -> Unit {
-  let src = src - 8
-  let dst = dest - 8
-  @wasm.memory_copy(dst, src, 8 + len)
+  @wasm.memory_copy(dest, src, len)
 }
 
 ///|

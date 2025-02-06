@@ -40,9 +40,7 @@ fn _string_sub(string : String, offset : Int) -> String = "%u64.sub"
 pub fn Memory::to_array[T : Sized + Default + Get + Set](
   self : Memory[T]
 ) -> FixedArray[T] {
-  let array = _array_sub(_array_of_memory(self), 1)
-  _moonbit_incref(_array_to_memory(array).cast())
-  array
+  _array_sub(_array_of_memory(self), 1)
 }
 
 ///|
@@ -54,9 +52,7 @@ pub fn Memory::of_array[T : Sized + Default + Set](
 
 ///|
 pub fn Memory::to_string(self : Memory[Byte]) -> String {
-  let string = _string_sub(_string_of_memory(self), 1)
-  _moonbit_incref(_string_to_memory(string).cast())
-  string
+  _string_sub(_string_of_memory(self), 1)
 }
 
 ///|
@@ -66,5 +62,8 @@ pub fn Memory::of_string(string : String) -> Memory[Byte] {
 
 ///|
 pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
-  self.to_array().length()
+  let array = self.to_array()
+  let length = array.length()
+  _moonbit_incref(array)
+  length
 }

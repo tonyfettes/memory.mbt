@@ -5,18 +5,13 @@ pub fn malloc[T : Sized + Default + Set](size : Int) -> Memory[T] {
 }
 
 ///|
-extern "c" fn _moonbit_incref(ptr : Memory[Unit]) = "moonbit_incref"
-
-///|
-extern "c" fn _moonbit_decref(ptr : Memory[Unit]) = "moonbit_decref"
+fn _moonbit_incref[T](ptr : FixedArray[T]) -> Unit {
+  _array_to_memory(ptr) |> ignore()
+}
 
 ///|
 pub fn free[T](ptr : Memory[T]) -> Unit {
-  ptr.cast()
-  |> _array_of_memory()
-  |> _array_sub(1)
-  |> _array_to_memory()
-  |> _moonbit_decref()
+  _array_sub(_array_of_memory(ptr), 1) |> ignore()
 }
 
 ///|
