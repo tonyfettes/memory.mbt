@@ -33,7 +33,7 @@ jobs:
         run: |
           moon version --all
           moonrun --version
-      
+
       - name: install deps
         run: |
           moon update
@@ -65,9 +65,8 @@ jobs:
           moon test --target wasm-gc
           moon test --release --target wasm
           moon test --release --target wasm-gc
-        env: 
+        env:
           MOONC_INTERNAL_PARAMS: dedup_wasm = 1 |
-
 
       - name: Setup MSVC
         if: ${{ matrix.os == 'windows-latest' }}
@@ -131,7 +130,7 @@ jobs:
         run: |
           moon version --all
           moonrun --version
-      
+
       - name: install deps
         run: |
           moon update
