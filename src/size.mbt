@@ -1,7 +1,6 @@
 ///|
 type Size Int
 
-
 ///|
 pub fn Size::op_get(size : Size, index : Int) -> Size = "%i32_mul"
 
