@@ -6,14 +6,13 @@ pub fn Memory::to_int[T](self : Memory[T]) -> Int {
   self._
 }
 
-
 ///| Returns memory's length with spcialized element type
 pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
   let length = allocator.search_block_length(self._)
   length / T::size()
 }
 
-
+///|
 pub fn Memory::to_array[T : Sized + Default + Get + Set](
   self : Memory[T]
 ) -> FixedArray[T] {
@@ -27,7 +26,6 @@ pub fn Memory::to_array[T : Sized + Default + Get + Set](
   }
   array
 }
-
 
 ///| Allocates memory for an array
 pub fn Memory::of_array[T : Sized + Default + Set](
