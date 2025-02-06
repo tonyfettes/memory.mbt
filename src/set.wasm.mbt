@@ -1,21 +1,18 @@
 ///|
 pub impl Set for Byte with set(self : Memory[Byte], index : Int, value : Byte) -> Unit {
   let array = self.to_array()
-  _moonbit_incref(array)
   array[index] = value
 }
 
 ///|
 pub impl Set for Int with set(self : Memory[Int], index : Int, value : Int) -> Unit {
   let array = self.to_array()
-  _moonbit_incref(array)
   array[index] = value
 }
 
 ///|
 pub impl Set for UInt with set(self : Memory[UInt], index : Int, value : UInt) -> Unit {
   let array = self.to_array()
-  _moonbit_incref(array)
   array[index] = value
 }
 
@@ -26,7 +23,6 @@ pub impl Set for Int64 with set(
   value : Int64
 ) -> Unit {
   let array = self.to_array()
-  _moonbit_incref(array)
   array[index] = value
 }
 
@@ -37,7 +33,6 @@ pub impl Set for UInt64 with set(
   value : UInt64
 ) -> Unit {
   let array = self.to_array()
-  _moonbit_incref(array)
   array[index] = value
 }
 
@@ -48,7 +43,6 @@ pub impl Set for Float with set(
   value : Float
 ) -> Unit {
   let array = self.to_array()
-  _moonbit_incref(array)
   array[index] = value
 }
 
@@ -59,6 +53,5 @@ pub impl Set for Double with set(
   value : Double
 ) -> Unit {
   let array = self.to_array()
-  _moonbit_incref(array)
   array[index] = value
 }
