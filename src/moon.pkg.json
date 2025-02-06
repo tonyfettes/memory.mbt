@@ -8,5 +8,10 @@
     "set.wasm.mbt": ["wasm", "native"],
     "get.wasm-gc.mbt": ["wasm-gc", "js"],
     "get.wasm.mbt": ["wasm", "native"]
+  },
+  "link": {
+    "native": {
+      "cc-flags": "-fsanitize=address"
+    }
   }
 }
