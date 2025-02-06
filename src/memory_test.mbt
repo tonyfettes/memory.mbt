@@ -10,6 +10,7 @@ test "FixedArray[Byte]" {
   for b in bytes {
     let ptr = @memory.Memory::of_array(b)
     assert_eq!(ptr.to_array(), b)
+    @memory.free(ptr)
   }
 }
 
@@ -18,6 +19,7 @@ test "FixedArray[Int]" {
   for int_array in int_arrays {
     let ptr = @memory.Memory::of_array(int_array)
     assert_eq!(ptr.to_array(), int_array)
+    @memory.free(ptr)
   }
 }
 
@@ -26,6 +28,7 @@ test "FixedArray[UInt]" {
   for uint_array in uint_arrays {
     let ptr = @memory.Memory::of_array(uint_array)
     assert_eq!(ptr.to_array(), uint_array)
+    @memory.free(ptr)
   }
 }
 
@@ -34,6 +37,7 @@ test "FixedArray[Int64]" {
   for int64_array in int64_arrays {
     let ptr = @memory.Memory::of_array(int64_array)
     assert_eq!(ptr.to_array(), int64_array)
+    @memory.free(ptr)
   }
 }
 
@@ -44,6 +48,7 @@ test "FixedArray[UInt64]" {
   for uint64_array in uint64_arrays {
     let ptr = @memory.Memory::of_array(uint64_array)
     assert_eq!(ptr.to_array(), uint64_array)
+    @memory.free(ptr)
   }
 }
 
@@ -57,6 +62,7 @@ test "FixedArray[Float]" {
   for float_array in float_arrays {
     let ptr = @memory.Memory::of_array(float_array)
     assert_eq!(ptr.to_array(), float_array)
+    @memory.free(ptr)
   }
 }
 
@@ -70,5 +76,6 @@ test "FixedArray[Double]" {
   for double_array in double_arrays {
     let ptr = @memory.Memory::of_array(double_array)
     assert_eq!(ptr.to_array(), double_array)
+    @memory.free(ptr)
   }
 }

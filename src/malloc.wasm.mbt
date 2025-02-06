@@ -5,8 +5,13 @@ pub fn malloc[T : Sized + Default + Set](size : Int) -> Memory[T] {
 }
 
 ///|
-fn _moonbit_incref[T](ptr : FixedArray[T]) -> Unit {
+fn _array_incref[T](ptr : FixedArray[T]) -> Unit {
   _array_to_int(ptr) |> ignore()
+}
+
+///|
+fn _string_incref(ptr : String) -> Unit {
+  _string_to_int(ptr) |> ignore()
 }
 
 ///|
@@ -29,7 +34,7 @@ pub fn realloc[T : Sized + Default + Get + Set](
 ) -> Memory[T] {
   let dst = malloc(size)
   let src_len = ptr.length()
-  copy(dst._, ptr._, src_len)
+  copy(dst._, ptr._, src_len * T::size())
   free(ptr)
   dst
 }

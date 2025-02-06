@@ -23,7 +23,9 @@ fn _string_of_int(value : Int) -> String = "%identity"
 pub fn Memory::to_array[T : Sized + Default + Get + Set](
   self : Memory[T]
 ) -> FixedArray[T] {
-  _array_of_int(self.to_int() - 8)
+  let array = _array_of_int(self.to_int() - 8)
+  _array_incref(array)
+  array
 }
 
 ///|
@@ -35,7 +37,9 @@ pub fn Memory::of_array[T : Sized + Default + Set](
 
 ///|
 pub fn Memory::to_string(self : Memory[Byte]) -> String {
-  _string_of_int(self.to_int() - 8)
+  let string = _string_of_int(self.to_int() - 8)
+  _string_incref(string)
+  string
 }
 
 ///|
@@ -47,6 +51,5 @@ pub fn Memory::of_string(string : String) -> Memory[Byte] {
 pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
   let array = self.to_array()
   let length = array.length()
-  _moonbit_incref(array)
   length
 }
