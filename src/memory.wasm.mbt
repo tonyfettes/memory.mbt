@@ -2,10 +2,10 @@
 type Memory[_] Int
 
 ///|
-pub fn Memory::to_int[T](self : Memory[T]) -> Int = "%identity"
+pub fn to_int[T](self : Memory[T]) -> Int = "%identity"
 
 ///|
-fn Memory::of_int[T](value : Int) -> Memory[T] = "%identity"
+fn of_int[T](value : Int) -> Memory[T] = "%identity"
 
 ///|
 fn _array_to_int[T](array : FixedArray[T]) -> Int = "%identity"
@@ -26,7 +26,7 @@ fn _string_to_int(string : String) -> Int = "%identity"
 fn _string_of_int(value : Int) -> String = "%identity"
 
 ///|
-pub fn Memory::to_array[T : Sized + Default + Get + Set](
+pub fn to_array[T : Sized + Default + Get + Set](
   self : Memory[T]
 ) -> FixedArray[T] {
   let array = _array_of_int(self.to_int() - 8)
@@ -35,38 +35,36 @@ pub fn Memory::to_array[T : Sized + Default + Get + Set](
 }
 
 ///|
-pub fn Memory::of_array[T : Sized + Default + Set](
-  array : FixedArray[T]
-) -> Memory[T] {
-  Memory::of_int(_array_to_int(array) + 8)
+pub fn of_array[T : Sized + Default + Set](array : FixedArray[T]) -> Memory[T] {
+  of_int(_array_to_int(array) + 8)
 }
 
 ///|
-pub fn Memory::to_bytes(self : Memory[Byte]) -> Bytes {
+pub fn to_bytes(self : Memory[Byte]) -> Bytes {
   let bytes = _bytes_of_int(self.to_int() - 8)
   _bytes_incref(bytes)
   bytes
 }
 
 ///|
-pub fn Memory::of_bytes(bytes : Bytes) -> Memory[Byte] {
-  Memory::of_int(_bytes_to_int(bytes) + 8)
+pub fn of_bytes(bytes : Bytes) -> Memory[Byte] {
+  of_int(_bytes_to_int(bytes) + 8)
 }
 
 ///|
-pub fn Memory::to_string(self : Memory[Byte]) -> String {
+pub fn to_string(self : Memory[Byte]) -> String {
   let string = _string_of_int(self.to_int() - 8)
   _string_incref(string)
   string
 }
 
 ///|
-pub fn Memory::of_string(string : String) -> Memory[Byte] {
-  Memory::of_int(_string_to_int(string) + 8)
+pub fn of_string(string : String) -> Memory[Byte] {
+  of_int(_string_to_int(string) + 8)
 }
 
 ///|
-pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
+pub fn length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
   let array = self.to_array()
   let length = array.length()
   length
