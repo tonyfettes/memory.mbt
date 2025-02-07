@@ -9,6 +9,10 @@ fn _array_incref[T](ptr : FixedArray[T]) -> Unit {
   _array_to_int(ptr) |> ignore()
 }
 
+fn _bytes_incref(ptr : Bytes) -> Unit {
+  _bytes_to_int(ptr) |> ignore()
+}
+
 ///|
 fn _string_incref(ptr : String) -> Unit {
   _string_to_int(ptr) |> ignore()

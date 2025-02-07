@@ -14,6 +14,23 @@ test "FixedArray[Byte]" {
   }
 }
 
+test "Bytes" {
+  let bytes : FixedArray[Bytes] = [
+    [b'h', b'e', b'l', b'l', b'o'],
+    [b'w', b'o', b'r', b'l', b'd'],
+    [b'f', b'o', b'o'],
+    [b'b', b'a', b'r'],
+    [b'b', b'a', b'z'],
+    [b'q', b'u', b'x'],
+  ]
+  for b in bytes {
+    let ptr = @memory.Memory::of_bytes(b)
+    assert_eq!(ptr.to_bytes(), b)
+    @memory.free(ptr)
+  }
+}
+
+
 test "FixedArray[Int]" {
   let int_arrays : @builtin.Array[FixedArray[Int]] = @quickcheck.samples(10)
   for int_array in int_arrays {

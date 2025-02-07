@@ -103,6 +103,74 @@ pub fn Memory::of_array[T : Sized + Default + Set](
   ptr
 }
 
+///|
+/// Converts a memory block containing bytes into a byte sequence. The memory
+/// block remains unchanged after the conversion.
+///
+/// Parameters:
+///
+/// * `memory` : A pointer to a block of memory containing bytes. The memory
+/// block should be properly allocated and initialized before calling this
+/// function.
+///
+/// Returns a new `Bytes` value containing a copy of the bytes stored in the
+/// memory block.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "Memory::to_bytes" {
+///   let ptr : Memory[Byte] = malloc(2)
+///   ptr[0] = b'H'
+///   ptr[1] = b'i'
+///   let bytes = ptr.to_bytes()
+///   inspect!(bytes, content="b\"Hi\"")
+///   free(ptr)
+/// }
+/// ```
+pub fn Memory::to_bytes(self : Memory[Byte]) -> Bytes {
+  let length = self.length()
+  let buffer = @buffer.new()
+  for i = 0; i < length; i = i + 1 {
+    buffer.write_byte(self[i])
+  }
+  buffer.contents()
+}
+
+///|
+/// Performs pointer arithmetic addition by advancing the memory
+/// pointer by a specified number of positions. This is a private function used
+/// internally by the package.
+///
+/// Parameters:
+///
+/// * `pointer` : A pointer of type `Memory[T]` where `T` implements the `Sized`
+/// trait.
+/// * `offset` : The number of positions to advance the pointer. Each position
+/// corresponds to the size of type `T`.
+///
+/// Returns a new pointer of type `Memory[T]` that points to the memory location
+/// after advancing by the specified offset.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "Memory::op_get" {
+///   let ptr : Memory[Int] = malloc(4)
+///   ptr[0] = 42
+///   ptr[1] = 37
+///   inspect!(ptr[1], content="37")
+///   free(ptr)
+/// }
+/// ```
+pub fn Memory::of_bytes(bytes : Bytes) -> Memory[Byte] {
+  let ptr = malloc(bytes.length())
+  for i in 0..<bytes.length() {
+    ptr[i] = bytes[i]
+  }
+  ptr
+}
+
 ///| Generates a string from memory, doesn't free memory
 pub fn Memory::to_string(self : Memory[Byte]) -> String {
   let length = self.length()

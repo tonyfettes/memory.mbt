@@ -14,6 +14,12 @@ fn _array_to_int[T](array : FixedArray[T]) -> Int = "%identity"
 fn _array_of_int[T](value : Int) -> FixedArray[T] = "%identity"
 
 ///|
+fn _bytes_to_int(bytes : Bytes) -> Int = "%identity"
+
+///|
+fn _bytes_of_int(value : Int) -> Bytes = "%identity"
+
+///|
 fn _string_to_int(string : String) -> Int = "%identity"
 
 ///|
@@ -33,6 +39,18 @@ pub fn Memory::of_array[T : Sized + Default + Set](
   array : FixedArray[T]
 ) -> Memory[T] {
   Memory::of_int(_array_to_int(array) + 8)
+}
+
+///|
+pub fn Memory::to_bytes(self : Memory[Byte]) -> Bytes {
+  let bytes = _bytes_of_int(self.to_int() - 8)
+  _bytes_incref(bytes)
+  bytes
+}
+
+///|
+pub fn Memory::of_bytes(bytes : Bytes) -> Memory[Byte] {
+  Memory::of_int(_bytes_to_int(bytes) + 8)
 }
 
 ///|

@@ -14,6 +14,12 @@ fn _array_to_memory[T](ptr : FixedArray[T]) -> Memory[T] = "%identity"
 fn _array_of_memory[T](value : Memory[T]) -> FixedArray[T] = "%identity"
 
 ///|
+fn _bytes_to_memory(ptr : Bytes) -> Memory[Byte] = "%identity"
+
+///|
+fn _bytes_of_memory(value : Memory[Byte]) -> Bytes = "%identity"
+
+///|
 fn _string_to_memory(ptr : String) -> Memory[Byte] = "%identity"
 
 ///|
@@ -29,6 +35,12 @@ fn _array_add[T](array : FixedArray[T], offset : Int) -> FixedArray[T] = "%u64.a
 
 ///|
 fn _array_sub[T](array : FixedArray[T], offset : Int) -> FixedArray[T] = "%u64.sub"
+
+///|
+fn _bytes_add(bytes : Bytes, offset : Int) -> Bytes = "%u64.add"
+
+///|
+fn _bytes_sub(bytes : Bytes, offset : Int) -> Bytes = "%u64.sub"
 
 ///|
 fn _string_add(string : String, offset : Int) -> String = "%u64.add"
@@ -50,6 +62,18 @@ pub fn Memory::of_array[T : Sized + Default + Set](
   array : FixedArray[T]
 ) -> Memory[T] {
   _array_to_memory(_array_add(array, 1))
+}
+
+///|
+pub fn Memory::to_bytes(self : Memory[Byte]) -> Bytes {
+  let bytes = _bytes_sub(_bytes_of_memory(self), 1)
+  _bytes_incref(bytes)
+  bytes
+}
+
+///|
+pub fn Memory::of_bytes(bytes : Bytes) -> Memory[Byte] {
+  _bytes_to_memory(_bytes_add(bytes, 1))
 }
 
 ///|

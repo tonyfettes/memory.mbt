@@ -10,6 +10,11 @@ fn _array_incref[T](ptr : FixedArray[T]) -> Unit {
 }
 
 ///|
+fn _bytes_incref(ptr : Bytes) -> Unit {
+  _bytes_to_memory(ptr) |> ignore()
+}
+
+///|
 fn _string_incref(ptr : String) -> Unit {
   _string_to_memory(ptr) |> ignore()
 }
