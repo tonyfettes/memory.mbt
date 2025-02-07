@@ -73,3 +73,15 @@ test "malloc-realloc-free" {
   @json.inspect!(ptr[1].to_int(), content=2)
   @memory.free(ptr)
 }
+
+test "blit" {
+  let dst : Memory[Int] = @memory.malloc(8)
+  let src : Memory[Int] = @memory.malloc(8)
+  src[0] = 4
+  src[1] = 2
+  @memory.blit(dst, 0, src, 0, 2)
+  @json.inspect!(dst[0], content=4)
+  @json.inspect!(dst[1], content=2)
+  @memory.free(dst)
+  @memory.free(src)
+}

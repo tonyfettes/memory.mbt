@@ -120,11 +120,13 @@ pub fn Memory::of_array[T : Sized + Default + Set](
 ///
 /// ```moonbit
 /// test "Memory::to_bytes" {
-///   let ptr : Memory[Byte] = malloc(2)
+///   let ptr : Memory[Byte] = malloc(4)
 ///   ptr[0] = b'H'
-///   ptr[1] = b'i'
+///   ptr[1] = b'\x00'
+///   ptr[2] = b'i'
+///   ptr[3] = b'\x00'
 ///   let bytes = ptr.to_bytes()
-///   inspect!(bytes, content="b\"Hi\"")
+///   inspect!(bytes.to_unchecked_string(), content="Hi")
 ///   free(ptr)
 /// }
 /// ```

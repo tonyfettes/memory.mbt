@@ -1,6 +1,8 @@
 package tonyfettes/memory
 
 // Values
+fn blit[T : Sized + Get + Set](Memory[T], Int, Memory[T], Int, Int) -> Unit
+
 let byte : Size
 
 let double_ : Size
@@ -29,11 +31,13 @@ impl Memory {
   get[T : Get](Self[T], Int) -> T
   length[T : Sized + Default + Get + Set](Self[T]) -> Int
   of_array[T : Sized + Default + Set](FixedArray[T]) -> Self[T]
+  of_bytes(Bytes) -> Self[Byte]
   of_string(String) -> Self[Byte]
   op_get[T : Sized + Get](Self[T], Int) -> T
   op_set[T : Sized + Set](Self[T], Int, T) -> Unit
   set[T : Set](Self[T], Int, T) -> Unit
   to_array[T : Sized + Default + Get + Set](Self[T]) -> FixedArray[T]
+  to_bytes(Self[Byte]) -> Bytes
   to_int[T](Self[T]) -> Int
   to_string(Self[Byte]) -> String
 }
