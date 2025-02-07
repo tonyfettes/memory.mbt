@@ -1,7 +1,7 @@
 ///|
 pub fn malloc[T : Sized + Default + Set](size : Int) -> Memory[T] {
   let array = FixedArray::make(size, T::default())
-  Memory::of_array(array)
+  of_array(array)
 }
 
 ///|

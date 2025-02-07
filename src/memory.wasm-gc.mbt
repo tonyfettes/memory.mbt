@@ -2,7 +2,7 @@
 type Memory[_] Int
 
 ///| Converts pointer to int
-pub fn Memory::to_int[T](self : Memory[T]) -> Int {
+pub fn to_int[T](self : Memory[T]) -> Int {
   self._
 }
 
@@ -20,13 +20,13 @@ pub fn Memory::to_int[T](self : Memory[T]) -> Int {
 /// Example:
 ///
 /// ```moonbit
-/// test "Memory::length" {
+/// test "length" {
 ///   let ptr : Memory[Int] = malloc(4)
 ///   inspect!(ptr.length(), content="4")
 ///   free(ptr)
 /// }
 /// ```
-pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
+pub fn length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
   let length = allocator.search_block_length(self._)
   length / T::size()
 }
@@ -45,7 +45,7 @@ pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int 
 /// Example:
 ///
 /// ```moonbit
-/// test "Memory::to_array" {
+/// test "to_array" {
 ///   let ptr : Memory[Int] = malloc(3)
 ///   ptr[0] = 1
 ///   ptr[1] = 2
@@ -55,7 +55,7 @@ pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int 
 ///   free(ptr)
 /// }
 /// ```
-pub fn Memory::to_array[T : Sized + Default + Get + Set](
+pub fn to_array[T : Sized + Default + Get + Set](
   self : Memory[T]
 ) -> FixedArray[T] {
   let length = self.length()
@@ -85,17 +85,15 @@ pub fn Memory::to_array[T : Sized + Default + Get + Set](
 /// Example:
 ///
 /// ```moonbit
-/// test "Memory::of_array" {
+/// test "of_array" {
 ///   let array : FixedArray[Int] = [1, 2, 3]
-///   let ptr : Memory[Int] = Memory::of_array(array)
+///   let ptr : Memory[Int] = of_array(array)
 ///   inspect!(ptr[0], content="1")
 ///   inspect!(ptr.length(), content="3")
 ///   free(ptr)
 /// }
 /// ```
-pub fn Memory::of_array[T : Sized + Default + Set](
-  array : FixedArray[T]
-) -> Memory[T] {
+pub fn of_array[T : Sized + Default + Set](array : FixedArray[T]) -> Memory[T] {
   let ptr : Memory[T] = malloc(array.length())
   for i = 0; i < array.length(); i = i + 1 {
     ptr[i] = array[i]
@@ -119,7 +117,7 @@ pub fn Memory::of_array[T : Sized + Default + Set](
 /// Example:
 ///
 /// ```moonbit
-/// test "Memory::to_bytes" {
+/// test "to_bytes" {
 ///   let ptr : Memory[Byte] = malloc(4)
 ///   ptr[0] = b'H'
 ///   ptr[1] = b'\x00'
@@ -130,7 +128,7 @@ pub fn Memory::of_array[T : Sized + Default + Set](
 ///   free(ptr)
 /// }
 /// ```
-pub fn Memory::to_bytes(self : Memory[Byte]) -> Bytes {
+pub fn to_bytes(self : Memory[Byte]) -> Bytes {
   let length = self.length()
   let buffer = @buffer.new()
   for i = 0; i < length; i = i + 1 {
@@ -140,32 +138,27 @@ pub fn Memory::to_bytes(self : Memory[Byte]) -> Bytes {
 }
 
 ///|
-/// Performs pointer arithmetic addition by advancing the memory
-/// pointer by a specified number of positions. This is a private function used
-/// internally by the package.
+/// Allocates a new memory block and copies the contents of a byte sequence into
+/// it.
 ///
 /// Parameters:
 ///
-/// * `pointer` : A pointer of type `Memory[T]` where `T` implements the `Sized`
-/// trait.
-/// * `offset` : The number of positions to advance the pointer. Each position
-/// corresponds to the size of type `T`.
+/// * `bytes` : A sequence of bytes to be copied into the new memory block.
 ///
-/// Returns a new pointer of type `Memory[T]` that points to the memory location
-/// after advancing by the specified offset.
+/// Returns a pointer to the newly allocated memory block containing a copy of
+/// the bytes.
 ///
 /// Example:
 ///
 /// ```moonbit
-/// test "Memory::op_get" {
-///   let ptr : Memory[Int] = malloc(4)
-///   ptr[0] = 42
-///   ptr[1] = 37
-///   inspect!(ptr[1], content="37")
+/// test "of_bytes" {
+///   let bytes = Bytes::of_string("Hello")
+///   let ptr = of_bytes(bytes)
+///   inspect!(ptr.to_bytes(), content="Hello")
 ///   free(ptr)
 /// }
 /// ```
-pub fn Memory::of_bytes(bytes : Bytes) -> Memory[Byte] {
+pub fn of_bytes(bytes : Bytes) -> Memory[Byte] {
   let ptr = malloc(bytes.length())
   for i in 0..<bytes.length() {
     ptr[i] = bytes[i]
@@ -174,7 +167,7 @@ pub fn Memory::of_bytes(bytes : Bytes) -> Memory[Byte] {
 }
 
 ///| Generates a string from memory, doesn't free memory
-pub fn Memory::to_string(self : Memory[Byte]) -> String {
+pub fn to_string(self : Memory[Byte]) -> String {
   let length = self.length()
   let buffer = @buffer.new()
   for i = 0; i < length * 2; i = i + 1 {
@@ -184,7 +177,7 @@ pub fn Memory::to_string(self : Memory[Byte]) -> String {
 }
 
 ///| Allocates memory for a string
-pub fn Memory::of_string(string : String) -> Memory[Byte] {
+pub fn of_string(string : String) -> Memory[Byte] {
   let ptr = malloc(string.length() * 2)
   let bytes = string.to_bytes()
   for i in 0..<bytes.length() {

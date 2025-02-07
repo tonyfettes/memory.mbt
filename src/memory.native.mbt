@@ -2,7 +2,7 @@
 type Memory[_]
 
 ///|
-pub fn Memory::to_int[T](self : Memory[T]) -> Int {
+pub fn to_int[T](self : Memory[T]) -> Int {
   let _ = self
   panic()
 }
@@ -49,7 +49,7 @@ fn _string_add(string : String, offset : Int) -> String = "%u64.add"
 fn _string_sub(string : String, offset : Int) -> String = "%u64.sub"
 
 ///|
-pub fn Memory::to_array[T : Sized + Default + Get + Set](
+pub fn to_array[T : Sized + Default + Get + Set](
   self : Memory[T]
 ) -> FixedArray[T] {
   let array = _array_sub(_array_of_memory(self), 1)
@@ -58,38 +58,36 @@ pub fn Memory::to_array[T : Sized + Default + Get + Set](
 }
 
 ///|
-pub fn Memory::of_array[T : Sized + Default + Set](
-  array : FixedArray[T]
-) -> Memory[T] {
+pub fn of_array[T : Sized + Default + Set](array : FixedArray[T]) -> Memory[T] {
   _array_to_memory(_array_add(array, 1))
 }
 
 ///|
-pub fn Memory::to_bytes(self : Memory[Byte]) -> Bytes {
+pub fn to_bytes(self : Memory[Byte]) -> Bytes {
   let bytes = _bytes_sub(_bytes_of_memory(self), 1)
   _bytes_incref(bytes)
   bytes
 }
 
 ///|
-pub fn Memory::of_bytes(bytes : Bytes) -> Memory[Byte] {
+pub fn of_bytes(bytes : Bytes) -> Memory[Byte] {
   _bytes_to_memory(_bytes_add(bytes, 1))
 }
 
 ///|
-pub fn Memory::to_string(self : Memory[Byte]) -> String {
+pub fn to_string(self : Memory[Byte]) -> String {
   let string = _string_sub(_string_of_memory(self), 1)
   _string_incref(string)
   string
 }
 
 ///|
-pub fn Memory::of_string(string : String) -> Memory[Byte] {
+pub fn of_string(string : String) -> Memory[Byte] {
   _string_to_memory(_string_add(string, 1))
 }
 
 ///|
-pub fn Memory::length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
+pub fn length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
   let array = self.to_array()
   let length = array.length()
   length
