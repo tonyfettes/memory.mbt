@@ -25,7 +25,7 @@ pub fn free[T](ptr : Memory[T]) -> Unit {
 }
 
 ///|
-fn copy[T : Sized + Get + Set](
+fn _copy[T : Sized + Get + Set](
   dest : Memory[T],
   src : Memory[T],
   count : Int
@@ -36,13 +36,26 @@ fn copy[T : Sized + Get + Set](
 }
 
 ///|
+pub fn blit[T : Sized + Get + Set](
+  dst : Memory[T],
+  dst_offset : Int,
+  src : Memory[T],
+  src_offset : Int,
+  len : Int
+) -> Unit {
+  for i in 0..<len {
+    dst[dst_offset + i] = src[src_offset + i]
+  }
+}
+
+///|
 pub fn realloc[T : Sized + Default + Get + Set](
   ptr : Memory[T],
   size : Int
 ) -> Memory[T] {
   let dest = malloc(size)
   let length = ptr.length()
-  copy(dest, ptr, length)
+  _copy(dest, ptr, length)
   free(ptr)
   dest
 }

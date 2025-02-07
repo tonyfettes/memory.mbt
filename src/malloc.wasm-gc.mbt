@@ -48,6 +48,19 @@ pub fn free[T](ptr : Memory[T]) -> Unit {
 }
 
 ///|
+pub fn blit[T : Sized + Get + Set](
+  dst : Memory[T],
+  dst_offset : Int,
+  src : Memory[T],
+  src_offset : Int,
+  len : Int
+) -> Unit {
+  for i in 0..<len {
+    dst[dst_offset + i] = src[src_offset + i]
+  }
+}
+
+///|
 /// Reallocates a block of memory with a new size, preserving its contents. If
 /// the new size is larger than the current size, the additional memory is
 /// uninitialized. If the new size is smaller, the memory block is truncated.
