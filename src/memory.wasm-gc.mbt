@@ -154,7 +154,7 @@ pub fn to_bytes(self : Memory[Byte]) -> Bytes {
 /// test "of_bytes" {
 ///   let bytes = Bytes::of_string("Hello")
 ///   let ptr = of_bytes(bytes)
-///   inspect!(ptr.to_bytes(), content="Hello")
+///   inspect!(ptr.to_bytes().to_unchecked_string(), content="Hello")
 ///   free(ptr)
 /// }
 /// ```
