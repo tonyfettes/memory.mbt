@@ -107,3 +107,6 @@ trait Set {
 pub fn Memory::set[T : Set](self : Memory[T], index : Int, value : T) -> Unit {
   T::set(self, index, value)
 }
+
+///|
+fn _array_unsafe_set[T](array : FixedArray[T], index : Int, value : T) -> Unit = "%fixedarray.unsafe_set"

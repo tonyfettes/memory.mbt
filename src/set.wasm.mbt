@@ -1,19 +1,22 @@
 ///|
 pub impl Set for Byte with set(self : Memory[Byte], index : Int, value : Byte) -> Unit {
-  let array = self.to_array()
-  array[index] = value
+  let array = self.as_array()
+  _array_unsafe_set(array, index, value)
+  _array_incref(array)
 }
 
 ///|
 pub impl Set for Int with set(self : Memory[Int], index : Int, value : Int) -> Unit {
-  let array = self.to_array()
-  array[index] = value
+  let array = self.as_array()
+  _array_unsafe_set(array, index, value)
+  _array_incref(array)
 }
 
 ///|
 pub impl Set for UInt with set(self : Memory[UInt], index : Int, value : UInt) -> Unit {
-  let array = self.to_array()
-  array[index] = value
+  let array = self.as_array()
+  _array_unsafe_set(array, index, value)
+  _array_incref(array)
 }
 
 ///|
@@ -22,8 +25,9 @@ pub impl Set for Int64 with set(
   index : Int,
   value : Int64
 ) -> Unit {
-  let array = self.to_array()
-  array[index] = value
+  let array = self.as_array()
+  _array_unsafe_set(array, index, value)
+  _array_incref(array)
 }
 
 ///|
@@ -32,8 +36,9 @@ pub impl Set for UInt64 with set(
   index : Int,
   value : UInt64
 ) -> Unit {
-  let array = self.to_array()
-  array[index] = value
+  let array = self.as_array()
+  _array_unsafe_set(array, index, value)
+  _array_incref(array)
 }
 
 ///|
@@ -42,8 +47,9 @@ pub impl Set for Float with set(
   index : Int,
   value : Float
 ) -> Unit {
-  let array = self.to_array()
-  array[index] = value
+  let array = self.as_array()
+  _array_unsafe_set(array, index, value)
+  _array_incref(array)
 }
 
 ///|
@@ -52,6 +58,7 @@ pub impl Set for Double with set(
   index : Int,
   value : Double
 ) -> Unit {
-  let array = self.to_array()
-  array[index] = value
+  let array = self.as_array()
+  _array_unsafe_set(array, index, value)
+  _array_incref(array)
 }
