@@ -170,7 +170,7 @@ pub fn of_bytes(bytes : Bytes) -> Memory[Byte] {
 pub fn to_string(self : Memory[Byte]) -> String {
   let length = self.length()
   let buffer = @buffer.new()
-  for i = 0; i < length * 2; i = i + 1 {
+  for i = 0; i < length; i = i + 1 {
     buffer.write_byte(self[i])
   }
   buffer.contents().to_unchecked_string()
