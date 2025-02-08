@@ -29,9 +29,14 @@ fn _string_of_int(value : Int) -> String = "%identity"
 pub fn to_array[T : Sized + Default + Get + Set](
   self : Memory[T]
 ) -> FixedArray[T] {
-  let array = _array_of_int(self.to_int() - 8)
+  let array = self.as_array()
   _array_incref(array)
   array
+}
+
+///|
+pub fn as_array[T](self : Memory[T]) -> FixedArray[T] {
+  _array_of_int(self.to_int() - 8)
 }
 
 ///|
@@ -41,9 +46,14 @@ pub fn of_array[T : Sized + Default + Set](array : FixedArray[T]) -> Memory[T] {
 
 ///|
 pub fn to_bytes(self : Memory[Byte]) -> Bytes {
-  let bytes = _bytes_of_int(self.to_int() - 8)
+  let bytes = self.as_bytes()
   _bytes_incref(bytes)
   bytes
+}
+
+///|
+pub fn as_bytes(self : Memory[Byte]) -> Bytes {
+  _bytes_of_int(self.to_int() - 8)
 }
 
 ///|
@@ -53,9 +63,14 @@ pub fn of_bytes(bytes : Bytes) -> Memory[Byte] {
 
 ///|
 pub fn to_string(self : Memory[Byte]) -> String {
-  let string = _string_of_int(self.to_int() - 8)
+  let string = self.as_string()
   _string_incref(string)
   string
+}
+
+///|
+pub fn as_string(self : Memory[Byte]) -> String {
+  _string_of_int(self.to_int() - 8)
 }
 
 ///|
