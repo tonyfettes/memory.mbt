@@ -6,6 +6,19 @@ pub impl Get for Byte with get(self : Memory[Byte], index : Int) -> Byte {
   value
 }
 
+///|
+pub impl Get for Int16 with get(self : Memory[Int16], index : Int) -> Int16 {
+  let array = self.as_array()
+  let value = array.unsafe_get(index)
+  _array_incref(array)
+  value
+}
+
+///|
+pub impl Get for UInt16 with get(self : Memory[UInt16], index : Int) -> UInt16 {
+  let array = self.as_array()
+  let value = array.unsafe_get(index)
+  _array_incref(array)
   value
 }
 

@@ -26,6 +26,12 @@ pub fn sizeof(size : Size) -> Int = "%identity"
 pub let byte : Size = 1
 
 ///|
+pub let int16 : Size = 2
+
+///|
+pub let uint16 : Size = 2
+
+///|
 pub let int_ : Size = 4
 
 ///|
@@ -50,6 +56,12 @@ pub(open) trait Sized {
 
 ///|
 pub impl Sized for Byte with size() -> Int { sizeof(byte) }
+
+///|
+pub impl Sized for Int16 with size() -> Int { sizeof(int16) }
+
+///|
+pub impl Sized for UInt16 with size() -> Int { sizeof(uint16) }
 
 ///|
 pub impl Sized for Int with size() -> Int { sizeof(int_) }

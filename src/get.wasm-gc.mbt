@@ -4,6 +4,16 @@ pub impl Get for Byte with get(ptr : Memory[Byte], index : Int) -> Byte {
 }
 
 ///|
+pub impl Get for Int16 with get(ptr : Memory[Int16], index : Int) -> Int16 {
+  @wasm.i32_load16_s(ptr.add(index)._).to_int16()
+}
+
+///|
+pub impl Get for UInt16 with get(ptr : Memory[UInt16], index : Int) -> UInt16 {
+  @wasm.i32_load16_u(ptr.add(index)._).to_uint16()
+}
+
+///|
 pub impl Get for Int with get(ptr : Memory[Int], index : Int) -> Int {
   @wasm.i32_load(ptr.add(index)._)
 }
