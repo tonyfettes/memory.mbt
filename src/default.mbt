@@ -1,5 +1,5 @@
 ///|
-trait Default {
+pub trait Default {
   default() -> Self
 }
 
