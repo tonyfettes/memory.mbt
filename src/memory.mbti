@@ -11,6 +11,8 @@ let float_ : Size
 
 fn free[T](Memory[T]) -> Unit
 
+let int16 : Size
+
 let int64 : Size
 
 let int_ : Size
@@ -28,6 +30,8 @@ fn realloc[T : Sized + Default + Get + Set](Memory[T], Int) -> Memory[T]
 fn sizeof(Size) -> Int
 
 let uint : Size
+
+let uint16 : Size
 
 let uint64 : Size
 
@@ -53,11 +57,26 @@ impl Size {
 // Type aliases
 
 // Traits
+pub trait Default {
+  default() -> Self
+}
+impl Default for Byte
+impl Default for Int
+impl Default for Int16
+impl Default for Int64
+impl Default for UInt
+impl Default for UInt16
+impl Default for UInt64
+impl Default for Float
+impl Default for Double
+
 trait Get
 impl Get for Byte
 impl Get for Int
+impl Get for Int16
 impl Get for Int64
 impl Get for UInt
+impl Get for UInt16
 impl Get for UInt64
 impl Get for Float
 impl Get for Double
@@ -65,8 +84,10 @@ impl Get for Double
 trait Set
 impl Set for Byte
 impl Set for Int
+impl Set for Int16
 impl Set for Int64
 impl Set for UInt
+impl Set for UInt16
 impl Set for UInt64
 impl Set for Float
 impl Set for Double
@@ -76,8 +97,10 @@ pub(open) trait Sized {
 }
 impl Sized for Byte
 impl Sized for Int
+impl Sized for Int16
 impl Sized for Int64
 impl Sized for UInt
+impl Sized for UInt16
 impl Sized for UInt64
 impl Sized for Float
 impl Sized for Double
