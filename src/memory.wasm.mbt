@@ -35,7 +35,7 @@ pub fn to_array[T : Sized + Default + Get + Set](
 }
 
 ///|
-pub fn as_array[T](self : Memory[T]) -> FixedArray[T] {
+fn as_array[T](self : Memory[T]) -> FixedArray[T] {
   _array_of_int(self.to_int() - 8)
 }
 
@@ -52,7 +52,7 @@ pub fn to_bytes(self : Memory[Byte]) -> Bytes {
 }
 
 ///|
-pub fn as_bytes(self : Memory[Byte]) -> Bytes {
+fn as_bytes(self : Memory[Byte]) -> Bytes {
   _bytes_of_int(self.to_int() - 8)
 }
 
@@ -69,7 +69,7 @@ pub fn to_string(self : Memory[Byte]) -> String {
 }
 
 ///|
-pub fn as_string(self : Memory[Byte]) -> String {
+fn as_string(self : Memory[Byte]) -> String {
   _string_of_int(self.to_int() - 8)
 }
 
