@@ -5,19 +5,13 @@ pub fn malloc[T : Sized + Default + Set](size : Int) -> Memory[T] {
 }
 
 ///|
-fn _array_incref[T](ptr : FixedArray[T]) -> Unit {
-  _array_to_memory(ptr) |> ignore()
-}
+fn _array_incref[T](ptr : FixedArray[T]) -> Unit = "%identity"
 
 ///|
-fn _bytes_incref(ptr : Bytes) -> Unit {
-  _bytes_to_memory(ptr) |> ignore()
-}
+fn _bytes_incref(ptr : Bytes) -> Unit = "%identity"
 
 ///|
-fn _string_incref(ptr : String) -> Unit {
-  _string_to_memory(ptr) |> ignore()
-}
+fn _string_incref(ptr : String) -> Unit = "%identity"
 
 ///|
 pub fn free[T](ptr : Memory[T]) -> Unit {
