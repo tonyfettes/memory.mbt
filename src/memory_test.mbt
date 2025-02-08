@@ -30,6 +30,17 @@ test "Bytes" {
   }
 }
 
+test "String" {
+  let strings : FixedArray[String] = [
+    "hello", "world", "foo", "bar", "baz", "qux",
+  ]
+  for s in strings {
+    let ptr = @memory.of_string(s)
+    assert_eq!(ptr.to_string(), s)
+    @memory.free(ptr)
+  }
+}
+
 test "FixedArray[Int]" {
   let int_arrays : @builtin.Array[FixedArray[Int]] = @quickcheck.samples(10)
   for int_array in int_arrays {
