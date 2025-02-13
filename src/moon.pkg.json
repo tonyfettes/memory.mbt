@@ -11,7 +11,7 @@
   },
   "link": {
     "native": {
-      "cc-flags": "-fsanitize=address"
+      "cc-flags": "-fwrapv -fsanitize=address -fsanitize=undefined"
     }
   }
 }
