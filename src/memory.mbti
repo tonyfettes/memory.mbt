@@ -36,7 +36,7 @@ let uint16 : Size
 let uint64 : Size
 
 // Types and methods
-type Memory
+type Memory[_]
 impl Memory {
   get[T : Get](Self[T], Int) -> T
   length[T : Sized + Default + Get + Set](Self[T]) -> Int
