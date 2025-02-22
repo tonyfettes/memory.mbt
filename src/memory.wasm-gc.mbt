@@ -176,13 +176,32 @@ pub fn to_string(self : Memory[Byte]) -> String {
   buffer.contents().to_unchecked_string()
 }
 
-///| Allocates memory for a string
-pub fn of_string(string : String) -> Memory[Byte] {
-  let ptr = malloc(string.length() * 2)
-  let bytes = string.to_bytes()
-  for i in 0..<bytes.length() {
-    ptr[i] = bytes[i]
+///|
+fn unsafe_blit_from_string(
+  self : Memory[Byte],
+  mem_offset~ : Int,
+  str~ : String,
+  str_offset~ : Int,
+  str_length~ : Int
+) -> Unit {
+  for i = str_offset, j = mem_offset
+      i < str_offset + str_length
+      i = i + 1, j = j + 2 {
+    let ch = str[i].to_uint()
+    self[j] = (ch & 0xff).to_byte()
+    self[j + 1] = (ch >> 8).to_byte()
   }
+}
+
+///| Allocates memory for a string
+pub fn of_string(str : String) -> Memory[Byte] {
+  let ptr = malloc(str.length() * 2)
+  ptr.unsafe_blit_from_string(
+    mem_offset=0,
+    str~,
+    str_offset=0,
+    str_length=str.length(),
+  )
   ptr
 }
 
