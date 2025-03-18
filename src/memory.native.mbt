@@ -1,5 +1,5 @@
 ///|
-type Memory[_]
+extern type Memory[_]
 
 ///|
 pub fn to_int[T](self : Memory[T]) -> Int {
