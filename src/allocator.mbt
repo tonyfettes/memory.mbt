@@ -60,9 +60,7 @@ fn Allocator::merge_block_backward(self : Allocator, index : Int) -> Int {
   loop index {
     0 => 0
     index => {
-      guard self.blocks[index - 1].occupied is None else {
-       return index
-      }
+      guard self.blocks[index - 1].occupied is None else { return index }
       self.blocks[index - 1].size += self.blocks[index].size
       self.blocks.remove(index) |> ignore
       continue index - 1
@@ -73,7 +71,7 @@ fn Allocator::merge_block_backward(self : Allocator, index : Int) -> Int {
 ///|
 fn Allocator::merge_block_forward(self : Allocator, index : Int) -> Unit {
   while index + 1 < self.blocks.length() {
-    guard self.blocks[index + 1].occupied is None else {  return }
+    guard self.blocks[index + 1].occupied is None else { return }
     self.blocks[index].size += self.blocks[index + 1].size
     self.blocks.remove(index + 1) |> ignore
   }
@@ -107,7 +105,7 @@ fn Allocator::shrink_block(self : Allocator, index : Int, size : Int) -> Unit {
 ///|
 fn Allocator::_allocate(self : Allocator, size : Int, length : Int) -> Int {
   for i = 0; i < self.blocks.length(); i = i + 1 {
-    guard self.blocks[i].occupied is None else {  continue }
+    guard self.blocks[i].occupied is None else { continue }
     if self.blocks[i].size < size {
       continue
     }
@@ -142,6 +140,7 @@ fn Allocator::allocate(self : Allocator, length : Int) -> Int {
   self._allocate(size, length)
 }
 
+///|
 test "Allocator::allocate" {
   let manager = Allocator::new()
   inspect!(manager.allocate(8), content="8")
@@ -162,6 +161,7 @@ test "Allocator::allocate" {
   )
 }
 
+///|
 test "Allocator::allocate - zero length" {
   let manager = Allocator::new()
   inspect!(manager.allocate(0), content="0")
@@ -215,13 +215,14 @@ fn Allocator::deallocate(self : Allocator, address : Int) -> Unit {
     return
   }
   let index = self.search_block(address)
-  guard  self.blocks[index].occupied is Some(_) else {
+  guard self.blocks[index].occupied is Some(_) else {
     abort("double-free \{address}")
   }
   self.blocks[index].occupied = None
   self.merge_block(index) |> ignore
 }
 
+///|
 test "Allocator::deallocate - reuse" {
   let manager = Allocator::new()
   inspect!(manager.allocate(8), content="8")
@@ -232,6 +233,7 @@ test "Allocator::deallocate - reuse" {
   inspect!(manager, content="[0 + 8, 8 + 16, 16 + 24, 24 - inf]")
 }
 
+///|
 test "Allocator::deallocate - merge" {
   let manager = Allocator::new()
   inspect!(manager.allocate(8), content="8")
@@ -255,6 +257,7 @@ test "Allocator::deallocate - merge" {
   inspect!(manager, content="[0 + 8, 8 - 24, 24 + 40, 40 + 56, 56 - inf]")
 }
 
+///|
 test "panic Manager::deallocate/double-free" {
   let manager = Allocator::new()
   inspect!(manager.allocate(8), content="0")
@@ -262,12 +265,14 @@ test "panic Manager::deallocate/double-free" {
   manager.deallocate(0)
 }
 
+///|
 test "panic Manager::deallocate/invalid-free" {
   let manager = Allocator::new()
   inspect!(manager.allocate(8), content="0")
   manager.deallocate(8)
 }
 
+///|
 test "Allocator::deallocate/fragment" {
   let manager = Allocator::new()
   inspect!(manager.allocate(8), content="8")
@@ -279,6 +284,7 @@ test "Allocator::deallocate/fragment" {
   inspect!(manager.allocate(16), content="24")
 }
 
+///|
 test "Allocator::deallocate/zero-length" {
   let manager = Allocator::new()
   inspect!(manager.allocate(0), content="0")
@@ -291,9 +297,7 @@ test "Allocator::deallocate/zero-length" {
 fn Allocator::reallocate(self : Allocator, address : Int, size : Int) -> Int {
   let index = self.search_block(address)
   let origin = self.blocks[index]
-  guard origin.occupied is Some(_) else {
-    abort("double-free \{address}")
-  }
+  guard origin.occupied is Some(_) else { abort("double-free \{address}") }
   let index = self.merge_block(index)
   let merged = self.blocks[index]
   if merged.size > size {
@@ -309,6 +313,7 @@ fn Allocator::reallocate(self : Allocator, address : Int, size : Int) -> Int {
   destination
 }
 
+///|
 test "Allocator::reallocate" {
   let manager = Allocator::new()
   inspect!(manager, content="[0 + 8, 8 - inf]")

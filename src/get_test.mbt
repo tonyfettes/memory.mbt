@@ -1,3 +1,4 @@
+///|
 test "get/Int16" {
   let ptr : Memory[Int16] = malloc(2)
   ptr[0] = 42
@@ -5,6 +6,7 @@ test "get/Int16" {
   free(ptr)
 }
 
+///|
 test "get/UInt16" {
   let ptr : Memory[UInt16] = malloc(2)
   ptr[0] = 42
@@ -14,6 +16,7 @@ test "get/UInt16" {
   free(ptr)
 }
 
+///|
 test "get/Int" {
   let ptr : Memory[Int] = malloc(2)
   ptr[0] = 42
@@ -21,6 +24,7 @@ test "get/Int" {
   free(ptr)
 }
 
+///|
 test "get/UInt" {
   let ptr : Memory[UInt] = malloc(2)
   ptr[0] = 42
@@ -30,6 +34,7 @@ test "get/UInt" {
   free(ptr)
 }
 
+///|
 test "get/Int64" {
   let ptr : Memory[Int64] = malloc(2)
   ptr[0] = 42
@@ -39,6 +44,7 @@ test "get/Int64" {
   free(ptr)
 }
 
+///|
 test "get/UInt64" {
   let ptr : Memory[UInt64] = malloc(2)
   ptr[0] = 42
@@ -48,6 +54,7 @@ test "get/UInt64" {
   free(ptr)
 }
 
+///|
 test "get/Float" {
   let ptr : Memory[Float] = malloc(2)
   ptr[0] = 42.0
@@ -57,6 +64,7 @@ test "get/Float" {
   free(ptr)
 }
 
+///|
 test "get/Double" {
   let ptr : Memory[Double] = malloc(2)
   ptr[0] = 42.0

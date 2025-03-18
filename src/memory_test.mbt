@@ -1,3 +1,4 @@
+///|
 test "FixedArray[Byte]" {
   let bytes : FixedArray[FixedArray[Byte]] = [
     [b'h', b'e', b'l', b'l', b'o'],
@@ -14,6 +15,7 @@ test "FixedArray[Byte]" {
   }
 }
 
+///|
 test "Bytes" {
   let bytes : FixedArray[Bytes] = [
     [b'h', b'e', b'l', b'l', b'o'],
@@ -30,6 +32,7 @@ test "Bytes" {
   }
 }
 
+///|
 test "String" {
   let strings : FixedArray[String] = [
     "hello", "world", "foo", "bar", "baz", "qux",
@@ -41,6 +44,7 @@ test "String" {
   }
 }
 
+///|
 test "FixedArray[Int]" {
   let int_arrays : @builtin.Array[FixedArray[Int]] = @quickcheck.samples(10)
   for int_array in int_arrays {
@@ -50,6 +54,7 @@ test "FixedArray[Int]" {
   }
 }
 
+///|
 test "FixedArray[UInt]" {
   let uint_arrays : @builtin.Array[FixedArray[UInt]] = @quickcheck.samples(10)
   for uint_array in uint_arrays {
@@ -59,6 +64,7 @@ test "FixedArray[UInt]" {
   }
 }
 
+///|
 test "FixedArray[Int64]" {
   let int64_arrays : @builtin.Array[FixedArray[Int64]] = @quickcheck.samples(10)
   for int64_array in int64_arrays {
@@ -68,6 +74,7 @@ test "FixedArray[Int64]" {
   }
 }
 
+///|
 test "FixedArray[UInt64]" {
   let uint64_arrays : @builtin.Array[FixedArray[UInt64]] = @quickcheck.samples(
     10,
@@ -79,6 +86,7 @@ test "FixedArray[UInt64]" {
   }
 }
 
+///|
 test "FixedArray[Float]" {
   let int_arrays : @builtin.Array[FixedArray[Int]] = @quickcheck.samples(10)
   let float_arrays : @builtin.Array[FixedArray[Float]] = int_arrays.map(fn(
@@ -93,6 +101,7 @@ test "FixedArray[Float]" {
   }
 }
 
+///|
 test "FixedArray[Double]" {
   let int_arrays : @builtin.Array[FixedArray[Int64]] = @quickcheck.samples(10)
   let double_arrays : @builtin.Array[FixedArray[Double]] = int_arrays.map(fn(

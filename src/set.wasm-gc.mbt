@@ -3,11 +3,17 @@ pub impl Set for Byte with set(ptr : Memory[Byte], index : Int, value : Byte) ->
   @wasm.i32_store8(ptr.add(index)._, value.to_int())
 }
 
+///|
 pub impl Set for Int16 with set(ptr : Memory[Int16], index : Int, value : Int16) -> Unit {
   @wasm.i32_store16(ptr.add(index)._, value.to_int())
 }
 
-pub impl Set for UInt16 with set(ptr : Memory[UInt16], index : Int, value : UInt16) -> Unit {
+///|
+pub impl Set for UInt16 with set(
+  ptr : Memory[UInt16],
+  index : Int,
+  value : UInt16
+) -> Unit {
   @wasm.i32_store16(ptr.add(index)._, value.to_int())
 }
 
