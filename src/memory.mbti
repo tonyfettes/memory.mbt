@@ -17,6 +17,8 @@ let int64 : Size
 
 let int_ : Size
 
+fn length[T : Sized + Default + Get + Set](Memory[T]) -> Int
+
 fn malloc[T : Sized + Default + Set](Int) -> Memory[T]
 
 fn of_array[T : Sized + Default + Set](FixedArray[T]) -> Memory[T]
@@ -28,6 +30,14 @@ fn of_string(String) -> Memory[Byte]
 fn realloc[T : Sized + Default + Get + Set](Memory[T], Int) -> Memory[T]
 
 fn sizeof(Size) -> Int
+
+fn to_array[T : Sized + Default + Get + Set](Memory[T]) -> FixedArray[T]
+
+fn to_bytes(Memory[Byte]) -> Bytes
+
+fn to_int[T](Memory[T]) -> Int
+
+fn to_string(Memory[Byte]) -> String
 
 let uint : Size
 
