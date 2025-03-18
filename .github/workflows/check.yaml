@@ -42,6 +42,11 @@ jobs:
       - name: moon check
         run: moon check --deny-warn
 
+      - name: moon fmt
+        run: | 
+          moon fmt
+          git diff --exit-code
+          
       - name: moon info
         run: |
           moon info --target wasm,wasm-gc,js,native
