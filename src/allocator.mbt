@@ -60,8 +60,8 @@ fn Allocator::merge_block_backward(self : Allocator, index : Int) -> Int {
   loop index {
     0 => 0
     index => {
-      guard let None = self.blocks[index - 1].occupied else {
-        Some(_) => return index
+      guard self.blocks[index - 1].occupied is None else {
+       return index
       }
       self.blocks[index - 1].size += self.blocks[index].size
       self.blocks.remove(index) |> ignore
@@ -73,7 +73,7 @@ fn Allocator::merge_block_backward(self : Allocator, index : Int) -> Int {
 ///|
 fn Allocator::merge_block_forward(self : Allocator, index : Int) -> Unit {
   while index + 1 < self.blocks.length() {
-    guard let None = self.blocks[index + 1].occupied else { Some(_) => return }
+    guard self.blocks[index + 1].occupied is None else {  return }
     self.blocks[index].size += self.blocks[index + 1].size
     self.blocks.remove(index + 1) |> ignore
   }
@@ -107,7 +107,7 @@ fn Allocator::shrink_block(self : Allocator, index : Int, size : Int) -> Unit {
 ///|
 fn Allocator::_allocate(self : Allocator, size : Int, length : Int) -> Int {
   for i = 0; i < self.blocks.length(); i = i + 1 {
-    guard let None = self.blocks[i].occupied else { Some(_) => continue }
+    guard self.blocks[i].occupied is None else {  continue }
     if self.blocks[i].size < size {
       continue
     }
@@ -215,8 +215,8 @@ fn Allocator::deallocate(self : Allocator, address : Int) -> Unit {
     return
   }
   let index = self.search_block(address)
-  guard let Some(_) = self.blocks[index].occupied else {
-    None => abort("double-free \{address}")
+  guard  self.blocks[index].occupied is Some(_) else {
+    abort("double-free \{address}")
   }
   self.blocks[index].occupied = None
   self.merge_block(index) |> ignore
@@ -291,8 +291,8 @@ test "Allocator::deallocate/zero-length" {
 fn Allocator::reallocate(self : Allocator, address : Int, size : Int) -> Int {
   let index = self.search_block(address)
   let origin = self.blocks[index]
-  guard let Some(_) = origin.occupied else {
-    None => abort("double-free \{address}")
+  guard origin.occupied is Some(_) else {
+    abort("double-free \{address}")
   }
   let index = self.merge_block(index)
   let merged = self.blocks[index]
