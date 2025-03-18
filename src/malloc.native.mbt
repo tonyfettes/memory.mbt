@@ -15,7 +15,7 @@ fn _string_incref(ptr : String) -> Unit = "%identity"
 
 ///|
 pub fn free[T](ptr : Memory[T]) -> Unit {
-  _array_sub(_array_of_memory(ptr), 1) |> ignore()
+  _array_of_memory(ptr) |> ignore()
 }
 
 ///|

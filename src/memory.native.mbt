@@ -59,12 +59,12 @@ pub fn to_array[T : Sized + Default + Get + Set](
 
 ///|
 fn as_array[T](self : Memory[T]) -> FixedArray[T] {
-  _array_sub(_array_of_memory(self), 1)
+  _array_of_memory(self)
 }
 
 ///|
 pub fn of_array[T : Sized + Default + Set](array : FixedArray[T]) -> Memory[T] {
-  _array_to_memory(_array_add(array, 1))
+  _array_to_memory(array)
 }
 
 ///|
@@ -76,12 +76,12 @@ pub fn to_bytes(self : Memory[Byte]) -> Bytes {
 
 ///|
 fn as_bytes(self : Memory[Byte]) -> Bytes {
-  _bytes_sub(_bytes_of_memory(self), 1)
+  _bytes_of_memory(self)
 }
 
 ///|
 pub fn of_bytes(bytes : Bytes) -> Memory[Byte] {
-  _bytes_to_memory(_bytes_add(bytes, 1))
+  _bytes_to_memory(bytes)
 }
 
 ///|
@@ -93,12 +93,12 @@ pub fn to_string(self : Memory[Byte]) -> String {
 
 ///|
 fn as_string(self : Memory[Byte]) -> String {
-  _string_sub(_string_of_memory(self), 1)
+  _string_of_memory(self)
 }
 
 ///|
 pub fn of_string(string : String) -> Memory[Byte] {
-  _string_to_memory(_string_add(string, 1))
+  _string_to_memory(string)
 }
 
 ///|
