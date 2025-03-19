@@ -1,6 +1,6 @@
 {
   "name": "tonyfettes/memory",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "deps": {
     "tonyfettes/wasm": "0.1.3"
   },
