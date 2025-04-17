@@ -88,12 +88,7 @@ test "FixedArray[UInt64]" {
 
 ///|
 test "FixedArray[Float]" {
-  let int_arrays : @builtin.Array[FixedArray[Int]] = @quickcheck.samples(10)
-  let float_arrays : @builtin.Array[FixedArray[Float]] = int_arrays.map(fn(
-    array
-  ) {
-    array.map(fn(int) { int.reinterpret_as_float() })
-  })
+  let float_arrays : @builtin.Array[FixedArray[Float]] = @quickcheck.samples(10)
   for float_array in float_arrays {
     let ptr = @memory.of_array(float_array)
     assert_eq!(ptr.to_array(), float_array)
@@ -103,12 +98,9 @@ test "FixedArray[Float]" {
 
 ///|
 test "FixedArray[Double]" {
-  let int_arrays : @builtin.Array[FixedArray[Int64]] = @quickcheck.samples(10)
-  let double_arrays : @builtin.Array[FixedArray[Double]] = int_arrays.map(fn(
-    array
-  ) {
-    array.map(fn(int) { int.reinterpret_as_double() })
-  })
+  let double_arrays : @builtin.Array[FixedArray[Double]] = @quickcheck.samples(
+    10,
+  )
   for double_array in double_arrays {
     let ptr = @memory.of_array(double_array)
     assert_eq!(ptr.to_array(), double_array)
