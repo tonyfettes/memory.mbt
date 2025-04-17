@@ -1,4 +1,4 @@
-package tonyfettes/memory
+package "tonyfettes/memory"
 
 // Values
 fn blit[T : Sized + Get + Set](Memory[T], Int, Memory[T], Int, Int) -> Unit
