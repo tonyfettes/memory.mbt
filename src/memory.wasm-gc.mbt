@@ -168,12 +168,8 @@ pub fn of_bytes(bytes : Bytes) -> Memory[Byte] {
 
 ///| Generates a string from memory, doesn't free memory
 pub fn to_string(self : Memory[Byte]) -> String {
-  let length = self.length()
-  let buffer = @buffer.new()
-  for i = 0; i < length; i = i + 1 {
-    buffer.write_byte(self[i])
-  }
-  buffer.contents().to_unchecked_string()
+  let bytes = Bytes::makei(self.length(),fn(i) { self[i] })
+  bytes.to_unchecked_string()
 }
 
 ///| Allocates memory for a string
