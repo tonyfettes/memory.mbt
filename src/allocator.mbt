@@ -6,7 +6,7 @@ priv struct Block {
 }
 
 ///|
-fn Block::output(self : Block, logger : &Logger) -> Unit {
+impl Show for Block with output(self, logger) -> Unit {
   Show::output(self.address, logger)
   match self.occupied {
     Some(_) => logger.write_string(" + ")
@@ -38,7 +38,7 @@ fn Allocator::new() -> Allocator {
 }
 
 ///|
-fn Allocator::output(self : Allocator, logger : &Logger) -> Unit {
+impl Show for Allocator with output(self, logger) -> Unit {
   logger.write_string("[")
   let last_index = self.blocks.length() - 1
   for i in 0..<last_index {
