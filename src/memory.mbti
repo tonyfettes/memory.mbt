@@ -1,7 +1,7 @@
 package "tonyfettes/memory"
 
 // Values
-fn blit[T : Sized + Get + Set](Memory[T], Int, Memory[T], Int, Int) -> Unit
+fn[T : Sized + Get + Set] blit(Memory[T], Int, Memory[T], Int, Int) -> Unit
 
 let byte : Size
 
@@ -9,7 +9,7 @@ let double_ : Size
 
 let float_ : Size
 
-fn free[T](Memory[T]) -> Unit
+fn[T] free(Memory[T]) -> Unit
 
 let int16 : Size
 
@@ -17,25 +17,25 @@ let int64 : Size
 
 let int_ : Size
 
-fn length[T : Sized + Default + Get + Set](Memory[T]) -> Int
+fn[T : Sized + Default + Get + Set] length(Memory[T]) -> Int
 
-fn malloc[T : Sized + Default + Set](Int) -> Memory[T]
+fn[T : Sized + Default + Set] malloc(Int) -> Memory[T]
 
-fn of_array[T : Sized + Default + Set](FixedArray[T]) -> Memory[T]
+fn[T : Sized + Default + Set] of_array(FixedArray[T]) -> Memory[T]
 
 fn of_bytes(Bytes) -> Memory[Byte]
 
 fn of_string(String) -> Memory[Byte]
 
-fn realloc[T : Sized + Default + Get + Set](Memory[T], Int) -> Memory[T]
+fn[T : Sized + Default + Get + Set] realloc(Memory[T], Int) -> Memory[T]
 
 fn sizeof(Size) -> Int
 
-fn to_array[T : Sized + Default + Get + Set](Memory[T]) -> FixedArray[T]
+fn[T : Sized + Default + Get + Set] to_array(Memory[T]) -> FixedArray[T]
 
 fn to_bytes(Memory[Byte]) -> Bytes
 
-fn to_int[T](Memory[T]) -> Int
+fn[T] to_int(Memory[T]) -> Int
 
 fn to_string(Memory[Byte]) -> String
 
@@ -47,22 +47,18 @@ let uint64 : Size
 
 // Types and methods
 type Memory[_]
-impl Memory {
-  get[T : Get](Self[T], Int) -> T
-  length[T : Sized + Default + Get + Set](Self[T]) -> Int
-  op_get[T : Sized + Get](Self[T], Int) -> T
-  op_set[T : Sized + Set](Self[T], Int, T) -> Unit
-  set[T : Set](Self[T], Int, T) -> Unit
-  to_array[T : Sized + Default + Get + Set](Self[T]) -> FixedArray[T]
-  to_bytes(Self[Byte]) -> Bytes
-  to_int[T](Self[T]) -> Int
-  to_string(Self[Byte]) -> String
-}
+fn[T : Get] Memory::get(Self[T], Int) -> T
+fn[T : Sized + Default + Get + Set] Memory::length(Self[T]) -> Int
+fn[T : Sized + Get] Memory::op_get(Self[T], Int) -> T
+fn[T : Sized + Set] Memory::op_set(Self[T], Int, T) -> Unit
+fn[T : Set] Memory::set(Self[T], Int, T) -> Unit
+fn[T : Sized + Default + Get + Set] Memory::to_array(Self[T]) -> FixedArray[T]
+fn Memory::to_bytes(Self[Byte]) -> Bytes
+fn[T] Memory::to_int(Self[T]) -> Int
+fn Memory::to_string(Self[Byte]) -> String
 
 type Size
-impl Size {
-  op_get(Self, Int) -> Self
-}
+fn Size::op_get(Self, Int) -> Self
 
 // Type aliases
 

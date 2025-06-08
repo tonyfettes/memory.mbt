@@ -2,7 +2,7 @@
 type Memory[_] Int
 
 ///| Converts pointer to int
-pub fn to_int[T](self : Memory[T]) -> Int {
+pub fn[T] to_int(self : Memory[T]) -> Int {
   self._
 }
 
@@ -26,7 +26,7 @@ pub fn to_int[T](self : Memory[T]) -> Int {
 ///   free(ptr)
 /// }
 /// ```
-pub fn length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
+pub fn[T : Sized + Default + Get + Set] length(self : Memory[T]) -> Int {
   let length = allocator.search_block_length(self._)
   length / T::size()
 }
@@ -55,7 +55,7 @@ pub fn length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
 ///   free(ptr)
 /// }
 /// ```
-pub fn to_array[T : Sized + Default + Get + Set](
+pub fn[T : Sized + Default + Get + Set] to_array(
   self : Memory[T]
 ) -> FixedArray[T] {
   let length = self.length()
@@ -93,7 +93,7 @@ pub fn to_array[T : Sized + Default + Get + Set](
 ///   free(ptr)
 /// }
 /// ```
-pub fn of_array[T : Sized + Default + Set](array : FixedArray[T]) -> Memory[T] {
+pub fn[T : Sized + Default + Set] of_array(array : FixedArray[T]) -> Memory[T] {
   let ptr : Memory[T] = malloc(array.length())
   for i = 0; i < array.length(); i = i + 1 {
     ptr[i] = array[i]
@@ -187,13 +187,13 @@ pub fn of_string(string : String) -> Memory[Byte] {
 }
 
 ///| Pointer arithmetic addition
-fn ptr_add[T : Sized](self : Memory[T], offset : Int) -> Memory[T] {
+fn[T : Sized] ptr_add(self : Memory[T], offset : Int) -> Memory[T] {
   let address = self._ + offset * T::size()
   Memory(address)
 }
 
 ///| Pointer arithmetic addition
-fn Memory::add[T : Sized](self : Memory[T], offset : Int) -> Memory[T] {
+fn[T : Sized] Memory::add(self : Memory[T], offset : Int) -> Memory[T] {
   let address = self._ + offset * T::size()
   Memory(address)
 }

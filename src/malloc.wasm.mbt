@@ -1,11 +1,11 @@
 ///|
-pub fn malloc[T : Sized + Default + Set](size : Int) -> Memory[T] {
+pub fn[T : Sized + Default + Set] malloc(size : Int) -> Memory[T] {
   let array = FixedArray::make(size, T::default())
   of_array(array)
 }
 
 ///|
-fn _array_incref[T](ptr : FixedArray[T]) -> Unit {
+fn[T] _array_incref(ptr : FixedArray[T]) -> Unit {
   _array_to_int(ptr) |> ignore()
 }
 
@@ -23,7 +23,7 @@ fn _string_incref(ptr : String) -> Unit {
 fn _moonbit_decref(ptr : Int) = "$moonbit.decref"
 
 ///|
-pub fn free[T](ptr : Memory[T]) -> Unit {
+pub fn[T] free(ptr : Memory[T]) -> Unit {
   _moonbit_decref(ptr._ - 8)
 }
 
@@ -33,7 +33,7 @@ fn _copy(dest : Int, src : Int, len : Int) -> Unit {
 }
 
 ///|
-pub fn blit[T : Sized + Get + Set](
+pub fn[T : Sized + Get + Set] blit(
   dst : Memory[T],
   dst_offset : Int,
   src : Memory[T],
@@ -48,7 +48,7 @@ pub fn blit[T : Sized + Get + Set](
 }
 
 ///|
-pub fn realloc[T : Sized + Default + Get + Set](
+pub fn[T : Sized + Default + Get + Set] realloc(
   ptr : Memory[T],
   size : Int
 ) -> Memory[T] {
