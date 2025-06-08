@@ -21,7 +21,7 @@ let allocator : Allocator = Allocator::new()
 ///   free(ptr)
 /// }
 /// ```
-pub fn malloc[T : Sized + Default + Set](size : Int) -> Memory[T] {
+pub fn[T : Sized + Default + Set] malloc(size : Int) -> Memory[T] {
   allocator.allocate(size * T::size())
 }
 
@@ -43,12 +43,12 @@ pub fn malloc[T : Sized + Default + Set](size : Int) -> Memory[T] {
 ///   free(ptr)
 /// }
 /// ```
-pub fn free[T](ptr : Memory[T]) -> Unit {
+pub fn[T] free(ptr : Memory[T]) -> Unit {
   allocator.deallocate(ptr._)
 }
 
 ///|
-pub fn blit[T : Sized + Get + Set](
+pub fn[T : Sized + Get + Set] blit(
   dst : Memory[T],
   dst_offset : Int,
   src : Memory[T],
@@ -87,7 +87,7 @@ pub fn blit[T : Sized + Get + Set](
 ///   free(new_ptr)
 /// }
 /// ```
-pub fn realloc[T : Sized + Default + Get + Set](
+pub fn[T : Sized + Default + Get + Set] realloc(
   ptr : Memory[T],
   size : Int
 ) -> Memory[T] {

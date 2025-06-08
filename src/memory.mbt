@@ -18,7 +18,7 @@
 ///   free(ptr)
 /// }
 /// ```
-pub fn Memory::op_get[T : Sized + Get](self : Memory[T], index : Int) -> T {
+pub fn[T : Sized + Get] Memory::op_get(self : Memory[T], index : Int) -> T {
   T::get(self, index)
 }
 
@@ -43,7 +43,7 @@ pub fn Memory::op_get[T : Sized + Get](self : Memory[T], index : Int) -> T {
 ///   free(ptr)
 /// }
 /// ```
-pub fn Memory::op_set[T : Sized + Set](
+pub fn[T : Sized + Set] Memory::op_set(
   self : Memory[T],
   index : Int,
   value : T
@@ -76,7 +76,7 @@ trait Get {
 ///   free(ptr)
 /// }
 /// ```
-pub fn Memory::get[T : Get](self : Memory[T], index : Int) -> T {
+pub fn[T : Get] Memory::get(self : Memory[T], index : Int) -> T {
   T::get(self, index)
 }
 
@@ -104,9 +104,9 @@ trait Set {
 ///   free(ptr)
 /// }
 /// ```
-pub fn Memory::set[T : Set](self : Memory[T], index : Int, value : T) -> Unit {
+pub fn[T : Set] Memory::set(self : Memory[T], index : Int, value : T) -> Unit {
   T::set(self, index, value)
 }
 
 ///|
-fn _array_unsafe_set[T](array : FixedArray[T], index : Int, value : T) -> Unit = "%fixedarray.unsafe_set"
+fn[T] _array_unsafe_set(array : FixedArray[T], index : Int, value : T) -> Unit = "%fixedarray.unsafe_set"

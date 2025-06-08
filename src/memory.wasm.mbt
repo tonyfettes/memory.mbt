@@ -2,16 +2,16 @@
 type Memory[_] Int
 
 ///|
-pub fn to_int[T](self : Memory[T]) -> Int = "%identity"
+pub fn[T] to_int(self : Memory[T]) -> Int = "%identity"
 
 ///|
-fn of_int[T](value : Int) -> Memory[T] = "%identity"
+fn[T] of_int(value : Int) -> Memory[T] = "%identity"
 
 ///|
-fn _array_to_int[T](array : FixedArray[T]) -> Int = "%identity"
+fn[T] _array_to_int(array : FixedArray[T]) -> Int = "%identity"
 
 ///|
-fn _array_of_int[T](value : Int) -> FixedArray[T] = "%identity"
+fn[T] _array_of_int(value : Int) -> FixedArray[T] = "%identity"
 
 ///|
 fn _bytes_to_int(bytes : Bytes) -> Int = "%identity"
@@ -26,7 +26,7 @@ fn _string_to_int(string : String) -> Int = "%identity"
 fn _string_of_int(value : Int) -> String = "%identity"
 
 ///|
-pub fn to_array[T : Sized + Default + Get + Set](
+pub fn[T : Sized + Default + Get + Set] to_array(
   self : Memory[T]
 ) -> FixedArray[T] {
   let array = self.as_array()
@@ -35,12 +35,12 @@ pub fn to_array[T : Sized + Default + Get + Set](
 }
 
 ///|
-fn as_array[T](self : Memory[T]) -> FixedArray[T] {
+fn[T] as_array(self : Memory[T]) -> FixedArray[T] {
   _array_of_int(self.to_int() - 8)
 }
 
 ///|
-pub fn of_array[T : Sized + Default + Set](array : FixedArray[T]) -> Memory[T] {
+pub fn[T : Sized + Default + Set] of_array(array : FixedArray[T]) -> Memory[T] {
   of_int(_array_to_int(array) + 8)
 }
 
@@ -79,7 +79,7 @@ pub fn of_string(string : String) -> Memory[Byte] {
 }
 
 ///|
-pub fn length[T : Sized + Default + Get + Set](self : Memory[T]) -> Int {
+pub fn[T : Sized + Default + Get + Set] length(self : Memory[T]) -> Int {
   let array = self.to_array()
   let length = array.length()
   length
